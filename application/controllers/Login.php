@@ -21,12 +21,35 @@ class Login extends CI_Controller {
 	public function index()
 	{
 		
+		$this->load->model('login_model');
+
 		if ($this->input->post('submit'))
 		{
-			redirect('dashboard');
+			
+			$result = $this->login_model->verificationLogin( $_POST['username'] , $_POST['password'] );
+
+			if ( $result->num_rows() > 0 )
+			{
+				
+				$setData = array(
+							'username'	=> $result->row()->ua_username,
+							'roleId'	=> $result->row()->ua_userRoleId,
+							'logged_in'	=> TRUE
+							);
+
+				$this->session->set_userdata($setData);
+
+				redirect('dashboard');
+			}else
+			{
+				$this->session->set_flashdata('error', 'Maaf Username atau Password Anda Salah');
+				redirect();
+			}
+			
 		}
         
         $this->load->view('login_view');
 
 	}
+
 }

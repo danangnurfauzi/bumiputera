@@ -29,12 +29,18 @@
                 <ul class="list">
                     <li class="header">MAIN NAVIGATION</li>
                     <li class="active">
-                        <a href="index.html">
+                        <a href="<?php echo site_url('dashboard') ?>">
                             <i class="material-icons">home</i>
                             <span>Home</span>
                         </a>
                     </li>
                     <li>
+                        <a href="<?php echo site_url('dashboard/dataAgen') ?>">
+                            <i class="material-icons">people</i>
+                            <span>Data Agen</span>
+                        </a>
+                    </li>
+                    <!--li>
                         <a href="pages/typography.html">
                             <i class="material-icons">text_fields</i>
                             <span>Typography</span>
@@ -359,7 +365,7 @@
                             <i class="material-icons col-light-blue">donut_large</i>
                             <span>Information</span>
                         </a>
-                    </li>
+                    </li-->
                 </ul>
             </div>
             <!-- #Menu -->

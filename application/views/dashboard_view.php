@@ -14,7 +14,7 @@
                             <i class="material-icons">playlist_add_check</i>
                         </div>
                         <div class="content">
-                            <div class="text">NEW TASKS</div>
+                            <div class="text">JUMLAH SP</div>
                             <div class="number count-to" data-from="0" data-to="125" data-speed="15" data-fresh-interval="20"></div>
                         </div>
                     </div>
@@ -25,7 +25,7 @@
                             <i class="material-icons">help</i>
                         </div>
                         <div class="content">
-                            <div class="text">NEW TICKETS</div>
+                            <div class="text">JUMLAH UP</div>
                             <div class="number count-to" data-from="0" data-to="257" data-speed="1000" data-fresh-interval="20"></div>
                         </div>
                     </div>
@@ -36,7 +36,7 @@
                             <i class="material-icons">forum</i>
                         </div>
                         <div class="content">
-                            <div class="text">NEW COMMENTS</div>
+                            <div class="text">JUMLAH PP</div>
                             <div class="number count-to" data-from="0" data-to="243" data-speed="1000" data-fresh-interval="20"></div>
                         </div>
                     </div>
@@ -59,7 +59,7 @@
                     <div class="card">
                         <div class="header">
                             <h2>
-                                DATA KANTOR AGEN
+                                DATA PEMPOL
                             </h2>
                             <ul class="header-dropdown m-r--5">
                                 <li class="dropdown">
@@ -75,32 +75,40 @@
                             </ul>
                         </div>
                         <div class="body">
-                            <table class="table table-bordered table-striped table-hover js-basic-example dataTable">
+                            <table class="table table-bordered table-striped table-hover js-basic-example dataTable" id="tabel">
                                 <thead>
                                     <tr>
-                                        <th>Kode Kantor</th>
-                                        <th>Nama Kantor</th>
+                                        <th>Nomor</th>
+                                        <th>No. Polis</th>
+                                        <th>Nama Pempol</th>
+                                        <th>Tanggal Mulai</th>
+                                        <th>CB Premi</th>
+                                        <th>Premi Top</th>
+                                        <th>Premi AFYP</th>
+                                        <th>PP</th>
                                     </tr>
                                 </thead>
                                 <tfoot>
                                     <tr>
-                                        <th>Kode Kantor</th>
-                                        <th>Nama Kantor</th>
+                                        <th>Nomor</th>
+                                        <th>No. Polis</th>
+                                        <th>Nama Pempol</th>
+                                        <th>Tanggal Mulai</th>
+                                        <th>CB Premi</th>
+                                        <th>Premi Top</th>
+                                        <th>Premi AFYP</th>
+                                        <th>PP</th>
                                     </tr>
                                 </tfoot>
                                 <tbody>
-                                    <?php foreach( $kantor->result() as $row ){ ?>
-                                    <tr>
-                                        <td><?php echo $row->user_kodeKantor ?></td>
-                                        <td><?php echo $row->user_namaKantor ?></td>
-                                    </tr>
-                                    <?php } ?>
+                                    
                                 </tbody>
                             </table>
                         </div>
                     </div>
                 </div>
             </div>
+
         </div>
     </section>
 
@@ -108,9 +116,41 @@
 
     <script type="text/javascript">
         
-        $('.test').DataTable();
+        //$('.test').DataTable();
 
         $('.count-to').countTo();
+
+        var table;
+ 
+        $(document).ready(function() {
+         
+            //datatables
+            table = $('#tabel').DataTable({ 
+         
+                "processing": true, //Feature control the processing indicator.
+                "serverSide": true, //Feature control DataTables' server-side processing mode.
+                "order": [], //Initial no order.
+                "destroy": true,
+                "searching": true,
+                "paging": true,
+
+                // Load data for the table's content from an Ajax source
+                "ajax": {
+                    "url": "<?php echo site_url('dashboard/ajax_list')?>",
+                    "type": "POST"
+                },
+         
+                //Set column definition initialisation properties.
+                "columnDefs": [
+                { 
+                    "targets": [ 0 ], //first column / numbering column
+                    "orderable": false, //set not orderable
+                },
+                ],
+         
+            });
+         
+        });
 
     </script>
 

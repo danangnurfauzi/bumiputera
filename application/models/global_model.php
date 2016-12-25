@@ -33,4 +33,34 @@ class Global_model extends CI_Model
 		return $this->db->get();
 	}
 
+	function listPempol()
+	{
+		$this->db->select();
+		$this->db->from('report');
+		$this->db->limit('1000');
+		return $this->db->get();
+	}
+
+	function dataAgen( $idPusat = null )
+	{
+		$this->db->select();
+		$this->db->from('user');
+		if ($idPusat != null) 
+		{
+			$this->db->where('user_idPusat',$idPusat);
+		}
+		return $this->db->get();
+	}
+
+	function jabatan( $kode = null )
+	{
+		$this->db->select();
+		$this->db->from('jabatan');
+		if ($id != null)
+		{
+			$this->db->where('j_kode',$kode);
+		}
+		return $this->db->get();
+	}
+
 }

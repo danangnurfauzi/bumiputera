@@ -22,4 +22,19 @@ class Login_model extends CI_Model
 		
 	}
 
+	function validasiAgen( $idPusat )
+	{
+		$this->db->select();
+		$this->db->from('user');
+		$this->db->where('user_idPusat',$idPusat);
+		$result = $this->db->get();
+
+		if ($result->num_rows() > 0)
+		{
+			return TRUE;
+		}else{
+			return FALSE;
+		}
+	}
+
 }

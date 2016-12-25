@@ -4,9 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    <title>Sign In | Bootstrap Based Admin Template - Material Design</title>
+    <title>Sign Up | Bootstrap Based Admin Template - Material Design</title>
     <!-- Favicon-->
-    <link rel="icon" href="<?php echo base_url() ?>assets/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
 
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet" type="text/css">
@@ -25,35 +25,37 @@
     <link href="<?php echo base_url() ?>assets/css/style.css" rel="stylesheet">
 </head>
 
-<body class="login-page">
-    <div class="login-box">
+<body class="signup-page">
+    <div class="signup-box">
         <div class="logo">
             <a href="javascript:void(0);">Admin<b>BSB</b></a>
             <small>Admin BootStrap Based - Material Design</small>
         </div>
         <div class="card">
             <div class="body">
-                <form id="sign_in" method="POST" action="<?php echo current_url() ?>">
+                <form id="sign_up" method="POST" action="<?php echo site_url('login/registerAgen') ?>">
                     
                     <?php $err = $this->session->flashdata('error'); if(isset($err)){ ?>
                     <div class="alert alert-danger">
                         <strong><?php echo $this->session->flashdata('error'); ?></strong>
                     </div>
                     <?php } ?>
-                    
-                    <?php $suc = $this->session->flashdata('success'); if(isset($suc)){ ?>
-                    <div class="alert alert-success">
-                        <strong><?php echo $this->session->flashdata('success'); ?></strong>
-                    </div>
-                    <?php } ?>
-                    
-                    <div class="msg">Sign in to start your session</div>
+
+                    <div class="msg">Register a new membership</div>
                     <div class="input-group">
                         <span class="input-group-addon">
                             <i class="material-icons">person</i>
                         </span>
                         <div class="form-line">
-                            <input type="text" class="form-control" name="username" placeholder="Username" required autofocus>
+                            <input type="text" class="form-control" name="nomorIdPusat" placeholder="Nomor ID Pusat" required autofocus>
+                        </div>
+                    </div>
+                    <!--div class="input-group">
+                        <span class="input-group-addon">
+                            <i class="material-icons">email</i>
+                        </span>
+                        <div class="form-line">
+                            <input type="email" class="form-control" name="email" placeholder="Jabatan" required>
                         </div>
                     </div>
                     <div class="input-group">
@@ -61,26 +63,27 @@
                             <i class="material-icons">lock</i>
                         </span>
                         <div class="form-line">
-                            <input type="password" class="form-control" name="password" placeholder="Password" required>
+                            <input type="password" class="form-control" name="password" minlength="6" placeholder="Password" required>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-xs-8 p-t-5">
-                            <input type="checkbox" name="rememberme" id="rememberme" class="filled-in chk-col-pink">
-                            <label for="rememberme">Remember Me</label>
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <i class="material-icons">lock</i>
+                        </span>
+                        <div class="form-line">
+                            <input type="password" class="form-control" name="confirm" minlength="6" placeholder="Confirm Password" required>
                         </div>
-                        <div class="col-xs-4">
-                            <input class="btn btn-block bg-pink waves-effect" type="submit" name="submit" value="SIGN IN">
-                        </div>
-                    </div>
-                    <div class="row m-t-15 m-b--20">
-                        <div class="col-xs-6">
-                            <a href="<?php echo site_url('login/signUp') ?>">Register Now!</a>
-                        </div>
-                        <div class="col-xs-6 align-right">
-                            <a href="forgot-password.html">Forgot Password?</a>
-                        </div>
-                    </div>
+                    </div-->
+                    <!--div class="form-group">
+                        <input type="checkbox" name="terms" id="terms" class="filled-in chk-col-pink">
+                        <label for="terms">I read and agree to the <a href="javascript:void(0);">terms of usage</a>.</label>
+                    </div-->
+
+                    <input class="btn btn-block btn-lg bg-pink waves-effect" type="submit" name="submit" value="SIGN UP">
+
+                    <!--div class="m-t-25 m-b--5 align-center">
+                        <a href="sign-in.html">You already have a membership?</a>
+                    </div-->
                 </form>
             </div>
         </div>
@@ -100,7 +103,7 @@
 
     <!-- Custom Js -->
     <script src="<?php echo base_url() ?>assets/js/admin.js"></script>
-    <script src="<?php echo base_url() ?>assets/js/pages/examples/sign-in.js"></script>
+    <script src="<?php echo base_url() ?>assets/js/pages/examples/sign-up.js"></script>
 </body>
 
 </html>

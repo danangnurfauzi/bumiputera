@@ -1,3 +1,7 @@
+<?php 
+    $us_2 = $this->uri->segment(2);
+    $us_3 = $this->uri->segment(3);
+?>
 <section>
         <!-- Left Sidebar -->
         <aside id="leftsidebar" class="sidebar">
@@ -28,13 +32,14 @@
             <div class="menu">
                 <ul class="list">
                     <li class="header">MAIN NAVIGATION</li>
-                    <li class="active">
+                    <li class="<?php echo (!isset($us_2)) ? "active" : "" ?>">
                         <a href="<?php echo site_url('dashboard') ?>">
                             <i class="material-icons">home</i>
                             <span>Home</span>
                         </a>
                     </li>
                     <li>
+                    <li class="<?php echo ($us_2 == 'dataAgen') ? "active" : "" ?>">
                         <a href="<?php echo site_url('dashboard/dataAgen') ?>">
                             <i class="material-icons">people</i>
                             <span>Data Agen</span>

@@ -22,11 +22,11 @@ class Login_model extends CI_Model
 		
 	}
 
-	function validasiAgen( $idPusat )
+	function validasiAgen( $nomorLisensi )
 	{
 		$this->db->select();
 		$this->db->from('user');
-		$this->db->where('user_idPusat',$idPusat);
+		$this->db->where('user_nomorLisensi',$nomorLisensi);
 		$result = $this->db->get();
 
 		if ($result->num_rows() > 0)
@@ -35,6 +35,14 @@ class Login_model extends CI_Model
 		}else{
 			return FALSE;
 		}
+	}
+
+	function checkUser( $userId )
+	{
+		$this->db->select();
+		$this->db->from('user_auth');
+		$this->db->where('ua_userId',$userId);
+		return $this->db->get();
 	}
 
 }

@@ -47,7 +47,7 @@
                             <i class="material-icons">person</i>
                         </span>
                         <div class="form-line">
-                            <input type="text" class="form-control" name="nomorIdPusat" placeholder="Nomor ID Pusat" required autofocus>
+                            <input type="text" class="form-control" name="nomorLisensi" placeholder="Nomor Lisensi" required autofocus>
                         </div>
                     </div>
                     <!--div class="input-group">

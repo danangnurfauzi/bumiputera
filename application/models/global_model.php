@@ -41,13 +41,13 @@ class Global_model extends CI_Model
 		return $this->db->get();
 	}
 
-	function dataAgen( $idPusat = null )
+	function dataAgen( $nomorLisensi = null )
 	{
 		$this->db->select();
 		$this->db->from('user');
-		if ($idPusat != null) 
+		if ($nomorLisensi != null) 
 		{
-			$this->db->where('user_idPusat',$idPusat);
+			$this->db->where('user_nomorLisensi',$nomorLisensi);
 		}
 		return $this->db->get();
 	}

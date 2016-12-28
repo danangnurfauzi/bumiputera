@@ -29,7 +29,7 @@ class Login extends CI_Controller {
 		}
 
 		$this->load->model(array('login_model','global_model'));
-		
+
 	}
 
 	public function index()
@@ -73,37 +73,51 @@ class Login extends CI_Controller {
 	public function registerAgen()
 	{
 		
-		$result = $this->login_model->validasiAgen( $this->input->post('nomorIdPusat') );
+		$result = $this->login_model->validasiAgen( $this->input->post('nomorLisensi') );
 		
 		if ($result === TRUE)
 		{
-			$this->db->trans_begin();
+			
+			$dataAgen = $this->global_model->dataAgen( $this->input->post('nomorLisensi') )->row();
 
-			$dataAgen = $this->global_model->dataAgen( $this->input->post('nomorIdPusat') )->row();
+			$checkRegisterAgen = $this->login_model->checkUser( $dataAgen->user_id );
 
-			$jabatan = $this->global_model->jabatan( $dataAgen->user_kodeJabatanAgen )->row();
-
-			$this->db->set('ua_username',$this->input->post('nomorIdPusat'));
-			$this->db->set('ua_password', md5('12345'));
-			$this->db->set('ua_plaintext','12345');
-			$this->db->set('ua_userRoleId',$jabatan->j_id);
-			$this->db->set('ua_userId',$dataAgen->user_id);
-			$this->db->insert('user_auth');
-
-			if ($this->db->trans_status() === FALSE)
+			if ( $checkRegisterAgen->num_rows() > 0 )
 			{
-			    $this->db->trans_rollback();
-			    $this->session->set_flashdata('error', 'Maaf Terjadi Kesalahan Sistem Saat Penyimpanan, Harap Ulangi Kembali');
-				redirect('login/signUp');
-			}
-			else
-			{
-			    $this->db->trans_commit();
-			    $this->session->set_flashdata('success', 'Register Anda Berhasil Silahkan Login Dengan Username: User ID Pusat dan Password: 12345');
+				
+				$this->session->set_flashdata('error', 'Anda Sudah Pernah Melakukan Register');
 				redirect('login');
+
+			}else{
+
+				$this->db->trans_begin();
+
+				$jabatan = $this->global_model->jabatan( $dataAgen->user_kodeJabatanAgen )->row();
+
+				$this->db->set('ua_username',$this->input->post('nomorLisensi'));
+				$this->db->set('ua_password', md5('12345'));
+				$this->db->set('ua_plaintext','12345');
+				$this->db->set('ua_userRoleId',$jabatan->j_id);
+				$this->db->set('ua_userId',$dataAgen->user_id);
+				$this->db->insert('user_auth');
+
+				if ($this->db->trans_status() === FALSE)
+				{
+				    $this->db->trans_rollback();
+				    $this->session->set_flashdata('error', 'Maaf Terjadi Kesalahan Sistem Saat Penyimpanan, Harap Ulangi Kembali');
+					redirect('login/signUp');
+				}
+				else
+				{
+				    $this->db->trans_commit();
+				    $this->session->set_flashdata('success', 'Register Anda Berhasil Silahkan Login Dengan Username: User ID Pusat dan Password: 12345');
+					redirect('login');
+				}
+
 			}
+
 		}else{
-			$this->session->set_flashdata('error', 'Maaf User ID Pusat Anda Salah');
+			$this->session->set_flashdata('error', 'Maaf Nomor Lisensi Anda Salah');
 			redirect('login/signUp');
 		}
 	}

@@ -42,6 +42,14 @@ class Login_model extends CI_Model
 		$this->db->select();
 		$this->db->from('user_auth');
 		$this->db->where('ua_userId',$userId);
+		return $this->db->get(); 
+	}
+
+	function dataUserId( $userId )
+	{
+		$this->db->select();
+		$this->db->from('user');
+		$this->db->where('user_id',$userId);
 		return $this->db->get();
 	}
 

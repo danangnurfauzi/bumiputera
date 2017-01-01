@@ -12,8 +12,8 @@ class Dashboard extends CI_Controller {
 			redirect();
 		}
 
-		$this->load->model(array('global_model','pempol_model'));
-		//print_r($_SESSION);exit;
+		$this->load->model(array('Global_model','Pempol_model'));
+		
 	}
 
 	public function index()
@@ -23,9 +23,9 @@ class Dashboard extends CI_Controller {
 
 		$data['sidebarMain'] = 'active';
 
-		$data['agen'] = $this->global_model->agen()->num_rows();
+		$data['agen'] = $this->Global_model->agen()->num_rows();
 
-		$data['pempol'] = $this->global_model->listPempol();
+		$data['pempol'] = $this->Global_model->listPempol();
 
         $this->load->view('dashboard_view',$data);    
 		
@@ -36,7 +36,7 @@ class Dashboard extends CI_Controller {
 
 		$data['sidebarAgen'] = 'active';
 
-		$data['agen'] = $this->global_model->agen();
+		$data['agen'] = $this->Global_model->agen();
 		
 		$this->load->view('dataAgen_view',$data); 
 		
@@ -50,7 +50,7 @@ class Dashboard extends CI_Controller {
 
 	public function ajax_list()
     {
-        $list = $this->pempol_model->get_datatables();
+        $list = $this->Pempol_model->get_datatables();
         $data = array();
         $no = $_POST['start'];
         foreach ($list as $pempol) {
@@ -70,8 +70,8 @@ class Dashboard extends CI_Controller {
  
         $output = array(
                         "draw" => $_POST['draw'],
-                        "recordsTotal" => $this->pempol_model->count_all(),
-                        "recordsFiltered" => $this->pempol_model->count_filtered(),
+                        "recordsTotal" => $this->Pempol_model->count_all(),
+                        "recordsFiltered" => $this->Pempol_model->count_filtered(),
                         "data" => $data,
                 );
         //output to json format

@@ -28,7 +28,7 @@ class Login extends CI_Controller {
 			redirect('dashboard');
 		}
 
-		$this->load->model(array('login_model','global_model'));
+		$this->load->model(array('Login_model','Global_model'));
 
 	}
 
@@ -38,13 +38,20 @@ class Login extends CI_Controller {
 		if ($this->input->post('submit'))
 		{
 			
-			$result = $this->login_model->verificationLogin( $_POST['username'] , $_POST['password'] );
+			$result = $this->Login_model->verificationLogin( $_POST['username'] , $_POST['password'] );
 
 			if ( $result->num_rows() > 0 )
 			{
 				
+				$userId = $result->row()->ua_userId;
+
+				$data = $this->Login_model->dataUserId( $userId )->row();
+
 				$setData = array(
-							'username'	=> $result->row()->ua_username,
+							'nomorLisensi' => $data->user_nomorLisensi,
+							'nama'	=> $data->user_namaAgen,
+							'jabatan' => $data->user_namaJabatanAgen,
+							'jabatanKode' => $data->user_kodeJabatanAgen,
 							'roleId'	=> $result->row()->ua_userRoleId,
 							'logged_in'	=> TRUE
 							);
@@ -55,7 +62,7 @@ class Login extends CI_Controller {
 			}else
 			{
 				$this->session->set_flashdata('error', 'Maaf Username atau Password Anda Salah');
-				redirect();
+				redirect('login');
 			}
 			
 		}
@@ -73,14 +80,14 @@ class Login extends CI_Controller {
 	public function registerAgen()
 	{
 		
-		$result = $this->login_model->validasiAgen( $this->input->post('nomorLisensi') );
+		$result = $this->Login_model->validasiAgen( $_POST['nomorLisensi'] );
 		
 		if ($result === TRUE)
 		{
 			
-			$dataAgen = $this->global_model->dataAgen( $this->input->post('nomorLisensi') )->row();
+			$dataAgen = $this->Global_model->dataAgen( $this->input->post('nomorLisensi') )->row();
 
-			$checkRegisterAgen = $this->login_model->checkUser( $dataAgen->user_id );
+			$checkRegisterAgen = $this->Login_model->checkUser( $dataAgen->user_id );
 
 			if ( $checkRegisterAgen->num_rows() > 0 )
 			{
@@ -92,7 +99,7 @@ class Login extends CI_Controller {
 
 				$this->db->trans_begin();
 
-				$jabatan = $this->global_model->jabatan( $dataAgen->user_kodeJabatanAgen )->row();
+				$jabatan = $this->Global_model->jabatan( $dataAgen->user_kodeJabatanAgen )->row();
 
 				$this->db->set('ua_username',$this->input->post('nomorLisensi'));
 				$this->db->set('ua_password', md5('12345'));
@@ -110,7 +117,7 @@ class Login extends CI_Controller {
 				else
 				{
 				    $this->db->trans_commit();
-				    $this->session->set_flashdata('success', 'Register Anda Berhasil Silahkan Login Dengan Username: User ID Pusat dan Password: 12345');
+				    $this->session->set_flashdata('success', 'Register Anda Berhasil Silahkan Login Dengan Username: Nomor Lisensi dan Password: 12345');
 					redirect('login');
 				}
 

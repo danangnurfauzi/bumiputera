@@ -2,13 +2,29 @@
 
 /**
 * 
-*/
+*/ 
 class Login_model extends CI_Model
 {
 	
 	function __construct()
 	{
 		parent::__construct();
+	}
+
+	function loginDataKantor( $kode )
+	{
+		$this->db->select();
+		$this->db->from('master_kantor');
+		$this->db->where('k_kode_kantor_wilayah' , $kode);
+		return $this->db->get();
+	}
+
+	function loginDataKantorCabang( $kode )
+	{
+		$this->db->select();
+		$this->db->from('master_kantor');
+		$this->db->where('k_kode' , $kode);
+		return $this->db->get();
 	}
 
 	function verificationLogin( $username , $password )
@@ -50,6 +66,14 @@ class Login_model extends CI_Model
 		$this->db->select();
 		$this->db->from('user');
 		$this->db->where('user_id',$userId);
+		return $this->db->get();
+	}
+
+	function checkPasswordLama( $password )
+	{
+		$this->db->select();
+		$this->db->from('user_auth');
+		$this->db->where('ua_plaintext',$password);
 		return $this->db->get();
 	}
 

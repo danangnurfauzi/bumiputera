@@ -11,16 +11,36 @@
                     <img src="<?php echo base_url() ?>assets/images/user.png" width="48" height="48" alt="User" />
                 </div>
                 <div class="info-container">
-                    <div class="name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><?php echo $_SESSION['nama'] ?></div>
-                    <div class="email"><?php echo $_SESSION['jabatan']." (".$_SESSION['jabatanKode'].")"; ?></div>
+                    <div class="name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><?php echo $username; ?></div>
+                    <div class="email">
+                    <?php
+                        switch ($_SESSION['roleId']) {
+                             case '0':
+                                 echo 'SUPERADMIN';
+                                 break;
+
+                            case '9':
+                                echo $_SESSION['kodeKantorWilayah'];
+                                break;
+
+                            case '10':
+                                echo $_SESSION['kodeKantor'];
+                                break;
+                             
+                             default:
+                                 echo $_SESSION['jabatan']." (".$_SESSION['jabatanKode'].")"; 
+                                 break;
+                         } 
+                    ?>
+                    </div>
                     <div class="btn-group user-helper-dropdown">
                         <i class="material-icons" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">keyboard_arrow_down</i>
                         <ul class="dropdown-menu pull-right">
-                            <li><a href="javascript:void(0);"><i class="material-icons">person</i>Profile</a></li>
+                            <li><a href="<?php echo site_url('profile') ?>"><i class="material-icons">person</i>Ubah Password</a></li>
                             <li role="seperator" class="divider"></li>
-                            <li><a href="javascript:void(0);"><i class="material-icons">group</i>Followers</a></li>
+                            <!--li><a href="javascript:void(0);"><i class="material-icons">group</i>Followers</a></li>
                             <li><a href="javascript:void(0);"><i class="material-icons">shopping_cart</i>Sales</a></li>
-                            <li><a href="javascript:void(0);"><i class="material-icons">favorite</i>Likes</a></li>
+                            <li><a href="javascript:void(0);"><i class="material-icons">favorite</i>Likes</a></li-->
                             <li role="seperator" class="divider"></li>
                             <li><a href="<?php echo site_url('dashboard/logout') ?>"><i class="material-icons">input</i>Sign Out</a></li>
                         </ul>

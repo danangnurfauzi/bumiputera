@@ -1,5 +1,21 @@
 <?php $this->load->view('template/header') ?>
 <?php $this->load->view('template/sidebar') ?>
+
+<style media="screen" type="text/css">
+
+.modal-dialog {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+}
+
+.modal-content {
+  height: 100%;
+  border-radius: 0;
+}
+
+</style>
+
 <section class="content">
         <div class="container-fluid">
             <div class="block-header">
@@ -36,8 +52,8 @@
                             <i class="material-icons">forum</i>
                         </div>
                         <div class="content">
-                            <div class="text">JUMLAH PP</div>
-                            <div class="number count-to" data-from="0" data-to="243" data-speed="1000" data-fresh-interval="20"></div>
+                            <div class="text">ATASAN</div>
+                            <div class="text"><?php echo ($namaAtasan->num_rows() > 0) ? $namaAtasan->row()->user_namaAgenInduk : '' ?></div>
                         </div>
                     </div>
                 </div>
@@ -54,12 +70,14 @@
                 </div>
             </div>
 
+            <?php if( $role != 0 ){ ?>
+
             <div class="row clearfix">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <div class="card">
                         <div class="header">
                             <h2>
-                                DATA PEMPOL
+                                DATA BAWAHAN
                             </h2>
                             <ul class="header-dropdown m-r--5">
                                 <li class="dropdown">
@@ -78,30 +96,29 @@
                             <table class="table table-bordered table-striped table-hover js-basic-example dataTable" id="tabel">
                                 <thead>
                                     <tr>
-                                        <th>Nomor</th>
-                                        <th>No. Polis</th>
-                                        <th>Nama Pempol</th>
-                                        <th>Tanggal Mulai</th>
-                                        <th>CB Premi</th>
-                                        <th>Premi Top</th>
-                                        <th>Premi AFYP</th>
-                                        <th>PP</th>
+                                        <th>Nomor ID Pusat</th>
+                                        <th>Nomor Lisensi</th>
+                                        <th>Nama</th>
+                                        <th>Jabatan</th>
                                     </tr>
                                 </thead>
                                 <tfoot>
                                     <tr>
-                                        <th>Nomor</th>
-                                        <th>No. Polis</th>
-                                        <th>Nama Pempol</th>
-                                        <th>Tanggal Mulai</th>
-                                        <th>CB Premi</th>
-                                        <th>Premi Top</th>
-                                        <th>Premi AFYP</th>
-                                        <th>PP</th>
+                                        <th>Nomor ID Pusat</th>
+                                        <th>Nomor Lisensi</th>
+                                        <th>Nama</th>
+                                        <th>Jabatan</th>
                                     </tr>
                                 </tfoot>
                                 <tbody>
-                                    
+                                    <?php if( $bawahan->num_rows() > 0 ){  foreach( $bawahan->result() as $row ){ ?>
+                                    <tr>
+                                        <td><?php echo $row->user_idPusat ?></td>
+                                        <td><?php echo $row->user_nomorLisensi ?></td>
+                                        <td><a data-toggle="modal" href="<?php echo site_url('dashboard/modalPempol/'.$row->user_idPusat) ?>" data-target="#myModal"><?php echo $row->user_namaAgen ?></a></td>
+                                        <td><?php echo $row->user_namaJabatanAgen." (".$row->user_kodeJabatanAgen.")" ?></td>
+                                    </tr>
+                                    <?php } } ?>
                                 </tbody>
                             </table>
                         </div>
@@ -109,16 +126,93 @@
                 </div>
             </div>
 
+            <?php }else{ ?>
+
+            <div class="row clearfix">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="card">
+                        <div class="header">
+                            <h2>
+                                DATA KANTOR WILAYAH
+                            </h2>
+                            <ul class="header-dropdown m-r--5">
+                                <!--li class="dropdown">
+                                    <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                        <i class="material-icons">more_vert</i>
+                                    </a>
+                                    <ul class="dropdown-menu pull-right">
+                                        <li><a href="javascript:void(0);">Action</a></li>
+                                        <li><a href="javascript:void(0);">Another action</a></li>
+                                        <li><a href="javascript:void(0);">Something else here</a></li>
+                                    </ul>
+                                </li-->
+                            </ul>
+                        </div>
+                        <div class="body">
+                            <table class="table table-bordered table-striped table-hover js-basic-example dataTable" id="tabel">
+                                <thead>
+                                    <tr>
+                                        <th>Kode kantor</th>
+                                        <th>Nama Kantor</th>
+                                        <th>Nama Kantor Wilayah</th>
+                                        <th>Kode Kantor Wilayah</th>
+                                        <th>Divisi</th>
+                                        <th>Distribusi</th>
+                                    </tr>
+                                </thead>
+                                <tfoot>
+                                    <tr>
+                                        <th>Kode kantor</th>
+                                        <th>Nama Kantor</th>
+                                        <th>Nama Kantor Wilayah</th>
+                                        <th>Kode Kantor Wilayah</th>
+                                        <th>Divisi</th>
+                                        <th>Distribusi</th>
+                                    </tr>
+                                </tfoot>
+                                <tbody>
+                                    <?php if( $namaKantor->num_rows() > 0 ){  foreach( $namaKantor->result() as $row ){ ?>
+                                    <tr>
+                                        <td><?php echo $row->k_kode ?></td>
+                                        <td><?php echo $row->k_nama ?></td>
+                                        <td><?php echo $row->k_kantor_wilayah ?></td>
+                                        <td><?php echo $row->k_kode_kantor_wilayah ?></td>
+                                        <td><?php echo $row->k_divisi ?></td>
+                                        <td><?php echo $row->k_distribusi ?></td>
+                                    </tr>
+                                    <?php } } ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <?php } ?>
+
         </div>
     </section>
+
+    <!-- Modal -->
+<div id="myModal" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                
+            </div>
+        </div>
+    </div>
 
     <?php $this->load->view('template/footer') ?>
 
     <script type="text/javascript">
         
-        //$('.test').DataTable();
+        $('body').on('hidden.bs.modal', '.modal', function () {
+          $(this).removeData('bs.modal');
+        });
 
         $('.count-to').countTo();
+
+        <?php if($role == 0){ ?>
 
         var table;
  
@@ -136,7 +230,7 @@
 
                 // Load data for the table's content from an Ajax source
                 "ajax": {
-                    "url": "<?php echo site_url('dashboard/ajax_list')?>",
+                    "url": "<?php echo site_url('dashboard/ajax_list_kantor')?>",
                     "type": "POST"
                 },
          
@@ -151,6 +245,8 @@
             });
          
         });
+
+        <?php } ?>
 
     </script>
 

@@ -28,8 +28,7 @@
 <body class="login-page">
     <div class="login-box">
         <div class="logo">
-            <a href="javascript:void(0);">Admin<b>BSB</b></a>
-            <small>Admin BootStrap Based - Material Design</small>
+            <a href="javascript:void(0);"><b>SIMONA</b></a>
         </div>
         <div class="card">
             <div class="body">
@@ -47,7 +46,18 @@
                     </div>
                     <?php } ?>
                     
-                    <div class="msg">Sign in to start your session</div>
+                    <!--div class="msg">Login Dengan Nomor Lisensi</div-->
+                    <div class="input-group">
+                        <div class="form-line">
+                            <select class="form-control show-tick" name="jenisUser">
+                                <option value="">-- Pilih Jenis User --</option>
+                                <option value="0">SUPERADMIN</option>
+                                <option value="1">WILAYAH</option>
+                                <option value="2">CABANG</option>
+                                <option value="3">TENAGA PEMASAR</option>
+                            </select>
+                        </div>
+                    </div>
                     <div class="input-group">
                         <span class="input-group-addon">
                             <i class="material-icons">person</i>

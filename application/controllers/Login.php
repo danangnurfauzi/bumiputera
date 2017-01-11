@@ -38,31 +38,126 @@ class Login extends CI_Controller {
 		if ($this->input->post('submit'))
 		{
 			
-			$result = $this->Login_model->verificationLogin( $_POST['username'] , $_POST['password'] );
-
-			if ( $result->num_rows() > 0 )
-			{
+			switch ($_POST['jenisUser']) {
 				
-				$userId = $result->row()->ua_userId;
+				case '0':
+					
+					$result = $this->Login_model->verificationLogin( $_POST['username'] , $_POST['password'] );
 
-				$data = $this->Login_model->dataUserId( $userId )->row();
+					if ( $result->num_rows() > 0 )
+					{
+						
+						$setData = array(
+									'userAuthId' => $result->row()->ua_id,
+									'username' => 'SUPERADMIN',
+									'roleId' => '0',
+									'logged_in'	=> TRUE
+									);
 
-				$setData = array(
-							'nomorLisensi' => $data->user_nomorLisensi,
-							'nama'	=> $data->user_namaAgen,
-							'jabatan' => $data->user_namaJabatanAgen,
-							'jabatanKode' => $data->user_kodeJabatanAgen,
-							'roleId'	=> $result->row()->ua_userRoleId,
-							'logged_in'	=> TRUE
-							);
+						$this->session->set_userdata($setData);
+						redirect('dashboard');
+					}else
+					{
+						$this->session->set_flashdata('error', 'Maaf Username atau Password Anda Salah');
+						redirect('login');
+					}
 
-				$this->session->set_userdata($setData);
+					break;
 
-				redirect('dashboard');
-			}else
-			{
-				$this->session->set_flashdata('error', 'Maaf Username atau Password Anda Salah');
-				redirect('login');
+				case '1': 
+					
+					$result = $this->Login_model->verificationLogin( $_POST['username'] , $_POST['password'] );
+
+					if ( $result->num_rows() > 0 )
+					{
+						$data = $this->Login_model->loginDataKantor( $_POST['username'] )->row();
+						$setData = array(
+									'userAuthId' => $result->row()->ua_id,
+									'username' => $data->k_kantor_wilayah,
+									'kodeKantor' => $data->k_kode,
+									'namaKantor' => $data->k_nama,
+									'kodeKantorWilayah'	=> $data->k_kode_kantor_wilayah,
+									'namaKantorWilayah' => $data->k_kantor_wilayah,
+									'divisi' => $data->k_divisi,
+									'distribusi'	=> $data->k_distribusi,
+									'roleId' => '9',
+									'logged_in'	=> TRUE
+									);
+
+						$this->session->set_userdata($setData);
+						redirect('dashboard');
+					}else
+					{
+						$this->session->set_flashdata('error', 'Maaf Username atau Password Anda Salah');
+						redirect('login');
+					}
+
+					break;
+
+				case '2': 
+					
+					$result = $this->Login_model->verificationLogin( $_POST['username'] , $_POST['password'] );
+
+					if ( $result->num_rows() > 0 )
+					{
+						$data = $this->Login_model->loginDataKantorCabang( $_POST['username'] )->row();
+						$setData = array(
+									'userAuthId' => $result->row()->ua_id, 
+									'username' => $data->k_nama,
+									'kodeKantor' => $data->k_kode,
+									'namaKantor' => $data->k_nama,
+									'kodeKantorWilayah'	=> $data->k_kode_kantor_wilayah,
+									'namaKantorWilayah' => $data->k_kantor_wilayah,
+									'divisi' => $data->k_divisi,
+									'distribusi'	=> $data->k_distribusi,
+									'roleId' => '10',
+									'logged_in'	=> TRUE
+									);
+
+						$this->session->set_userdata($setData);
+						redirect('dashboard');
+					}else
+					{
+						$this->session->set_flashdata('error', 'Maaf Username atau Password Anda Salah');
+						redirect('login');
+					}
+
+					break;
+
+				case '3':
+					
+					$result = $this->Login_model->verificationLogin( $_POST['username'] , $_POST['password'] );
+
+					if ( $result->num_rows() > 0 )
+					{
+						
+						$userId = $result->row()->ua_userId;
+
+						$data = $this->Login_model->dataUserId( $userId )->row();
+
+						$setData = array(
+									'userAuthId' => $result->row()->ua_id,
+									'username' => $data->user_namaAgen,
+									'idPusat' => $data->user_idPusat,
+									'nomorLisensi' => $data->user_nomorLisensi,
+									'nama'	=> $data->user_namaAgen,
+									'jabatan' => $data->user_namaJabatanAgen,
+									'jabatanKode' => $data->user_kodeJabatanAgen,
+									'roleId'	=> $result->row()->ua_userRoleId,
+									'logged_in'	=> TRUE
+									);
+
+						$this->session->set_userdata($setData);
+
+						redirect('dashboard');
+					}else
+					{
+						$this->session->set_flashdata('error', 'Maaf Username atau Password Anda Salah');
+						redirect('login');
+					}
+
+					break;
+				
 			}
 			
 		}

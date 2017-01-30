@@ -1,9 +1,25 @@
 <?php $this->load->view('template/header') ?>
 <?php $this->load->view('template/sidebar') ?>
+
+<style media="screen" type="text/css">
+
+.modal-dialog {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+}
+
+.modal-content {
+  height: 100%;
+  border-radius: 0;
+}
+
+</style>
+
 <section class="content">
         <div class="container-fluid">
             <div class="block-header">
-                <h2>DASHBOARD</h2>
+                <h2></h2>
             </div>
 
             <div class="row clearfix">
@@ -27,27 +43,25 @@
                             </ul>
                         </div>
                         <div class="body">
-                            <table class="table table-bordered table-striped table-hover js-basic-example dataTable">
+                            <table class="table table-bordered table-striped table-hover nowrap" id="tabel" width="100%">
                                 <thead>
                                     <tr>
-                                        <th>Nama</th>
-                                        <th>No Lisensi</th>
+                                        <th>Nama Agen</th>
+                                        <th>Nomor Lisensi</th>
                                         <th>Jabatan</th>
+                                        <th>Jumlah Organisasi</th>
+                                        <th>Total Produksi</th>
                                     </tr>
                                 </thead>
-                                <tfoot>
-                                    <tr>
-                                        <th>Nama</th>
-                                        <th>No Lisensi</th>
-                                        <th>Jabatan</th>
-                                    </tr>
-                                </tfoot>
+                                
                                 <tbody>
                                     <?php foreach( $agen->result() as $row ){ ?>
                                     <tr>
-                                        <td><?php echo $row->user_namaAgen ?></td>
-                                        <td><?php echo $row->user_nomorLisensi ?></td>
+                                        <td><?php echo $row->user_namaAgen ?></a></td>
+                                        <td><a data-toggle="modal" data-target="#myModal" href="<?php echo site_url('dashboard/modalAgenPempol/'.$row->user_idPusat) ?>" ><?php echo $row->user_nomorLisensi ?></a></td>
                                         <td><?php echo $row->user_namaJabatanAgen ?></td>
+                                        <td><a data-toggle="modal" data-target="#myModal" href="<?php echo site_url('dashboard/modalAgenBawahan/'.$row->user_idPusat) ?>" ><?php echo jumlahOrganisasiAgen($row->user_idPusat) ?></td>
+                                        <td><?php echo totalProduksi($row->user_idPusat) ?></td>
                                     </tr>
                                     <?php } ?>
                                 </tbody>
@@ -58,14 +72,33 @@
             </div>
         </div>
     </section>
+    
+    <!-- Modal -->
+    <div id="myModal" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                
+            </div>
+        </div>
+    </div>
 
     <?php $this->load->view('template/footer') ?>
 
     <script type="text/javascript">
         
-        $('.test').DataTable();
+        $(function () {
+	    $('#tabel').DataTable({
+	    	responsive: {
+		        details: true
+		    }
+	    });	
+	});
 
         $('.count-to').countTo();
+        
+        $('body').on('hidden.bs.modal', '.modal', function () {
+          $(this).removeData('bs.modal');
+        });
 
     </script>
 

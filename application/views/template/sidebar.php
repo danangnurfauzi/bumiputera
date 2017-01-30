@@ -59,12 +59,57 @@
                         </a>
                     </li>
                     <li>
+                    <?php
+                        switch ($_SESSION['roleId']) {
+                             case '0':
+                    ?>
+                    <li class="<?php echo ($us_2 == 'pempol') ? "active" : "" ?>">
+                        <a href="<?php echo site_url('dashboard/pempol') ?>">
+                            <i class="material-icons">people</i>
+                            <span>Data Pempol</span>
+                        </a>
+                    </li>
+                    <?php
+                                 break;
+
+                            case '9':
+                    ?>
+                    <li class="<?php echo ($us_2 == 'pempolWilayah') ? "active" : "" ?>">
+                        <a href="<?php echo site_url('dashboard/pempolWilayah') ?>">
+                            <i class="material-icons">people</i>
+                            <span>Data Pempol</span>
+                        </a>
+                    </li>
+                    <?php
+                                
+                                break;
+
+                            case '10':
+                    ?>
                     <li class="<?php echo ($us_2 == 'dataAgen') ? "active" : "" ?>">
                         <a href="<?php echo site_url('dashboard/dataAgen') ?>">
                             <i class="material-icons">people</i>
                             <span>Data Agen</span>
                         </a>
                     </li>
+                    <?php
+                                
+                                break;
+                             
+                             default:
+                    ?>
+                    <li class="<?php echo ($us_2 == 'pempolAgen') ? "active" : "" ?>">
+                        <a href="<?php echo site_url('dashboard/pempolAgen') ?>">
+                            <i class="material-icons">people</i>
+                            <span>Data Pempol</span>
+                        </a>
+                    </li>
+                    <?php
+                                 
+                                 break;
+                         } 
+                    ?>
+                    
                     <!--li>
                         <a href="pages/typography.html">
                             <i class="material-icons">text_fields</i>
@@ -397,10 +442,10 @@
             <!-- Footer -->
             <div class="legal">
                 <div class="copyright">
-                    &copy; 2016 <a href="javascript:void(0);">AdminBSB - Material Design</a>.
+                    &copy; 2017 SIMONA
                 </div>
                 <div class="version">
-                    <b>Version: </b> 1.0.4
+                    <b>Version: </b> 1.0
                 </div>
             </div>
             <!-- #Footer -->

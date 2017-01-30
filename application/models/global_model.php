@@ -24,6 +24,14 @@ class Global_model extends CI_Model
 		return $this->db->get();
 		
 	}
+	
+	function kantorWilayah()
+	{
+		$this->db->select();
+		$this->db->from('master_kantor');
+		$this->db->group_by('k_kode_kantor_wilayah');
+		return $this->db->get();
+	}
 
 	function agen()
 	{
@@ -45,7 +53,7 @@ class Global_model extends CI_Model
 
 	function agenCabang( $kode )
 	{
-		$this->db->select('user_namaAgen, user_namaJabatanAgen, user_nomorLisensi');
+		$this->db->select('user_idPusat, user_namaAgen, user_namaJabatanAgen, user_nomorLisensi');
 		$this->db->from('user');
 		$this->db->where('user_kodeKantor',$kode);
 		$this->db->group_by('user_namaAgen');

@@ -60,3 +60,27 @@ function jumlahPPPerWilayah( $kode )
 
     return $row;
 }
+
+function jumlahOrganisasiAgen( $idPusat )
+{
+	$ci=& get_instance();
+	$ci->load->database();
+	
+	$sql = "SELECT COUNT(user_idPusat) AS JUMLAH FROM user WHERE user_nomorAgenInduk = ".$idPusat;
+	$query = $ci->db->query($sql);
+    	$row = $query->row()->JUMLAH;
+
+    	return $row;
+}
+
+function totalProduksi( $idPusat )
+{
+	$ci=& get_instance();
+	$ci->load->database();
+	
+	$sql = "SELECT COUNT(r_userIdPusat) AS JUMLAH FROM user INNER JOIN report ON r_userIdPusat = user_idPusat WHERE (user_nomorAgenInduk = ".$idPusat." OR user_idPusat = ".$idPusat.")";
+	$query = $ci->db->query($sql);
+    	$row = $query->row()->JUMLAH;
+
+    	return $row;
+}

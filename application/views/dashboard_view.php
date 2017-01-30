@@ -53,7 +53,7 @@
                         </div>
                         <div class="content">
                             <div class="text">ATASAN</div>
-                            <div class="text"><?php echo ($namaAtasan->num_rows() > 0) ? $namaAtasan->row()->user_namaAgenInduk : '' ?></div>
+                            <div class="text" data-from="0" data-to="125" data-speed="15" data-fresh-interval="20"><?php echo ($namaAtasan->num_rows() > 0) ? $namaAtasan->row()->user_namaAgenInduk : '' ?></div>
                         </div>
                     </div>
                 </div>
@@ -93,7 +93,7 @@
                             </ul>
                         </div>
                         <div class="body">
-                            <table class="table table-bordered table-striped table-hover js-basic-example dataTable" id="tabel">
+                            <table class="table table-bordered table-striped table-hover nowrap" id="tabel" width="100%">
                                 <thead>
                                     <tr>
                                         <th>Nomor ID Pusat</th>
@@ -149,7 +149,7 @@
                             </ul>
                         </div>
                         <div class="body">
-                            <table class="table table-bordered table-striped table-hover js-basic-example dataTable" id="tabel">
+                            <table class="table table-bordered table-striped table-hover nowrap" id="tabel" width="100%">
                                 <thead>
                                     <tr>
                                         <th>Kode kantor</th>
@@ -212,41 +212,13 @@
 
         $('.count-to').countTo();
 
-        <?php if($role == 0){ ?>
-
-        var table;
- 
-        $(document).ready(function() {
-         
-            //datatables
-            table = $('#tabel').DataTable({ 
-         
-                "processing": true, //Feature control the processing indicator.
-                "serverSide": true, //Feature control DataTables' server-side processing mode.
-                "order": [], //Initial no order.
-                "destroy": true,
-                "searching": true,
-                "paging": true,
-
-                // Load data for the table's content from an Ajax source
-                "ajax": {
-                    "url": "<?php echo site_url('dashboard/ajax_list_kantor')?>",
-                    "type": "POST"
-                },
-         
-                //Set column definition initialisation properties.
-                "columnDefs": [
-                { 
-                    "targets": [ 0 ], //first column / numbering column
-                    "orderable": false, //set not orderable
-                },
-                ],
-         
-            });
-         
-        });
-
-        <?php } ?>
+        $(function () {
+	    $('#tabel').DataTable({
+	    	responsive: {
+		        details: true
+		    }
+	    });	
+	});
 
     </script>
 

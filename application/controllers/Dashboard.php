@@ -12,10 +12,13 @@ class Dashboard extends CI_Controller {
 			redirect();
 		}
 
-		$this->load->model(array('Global_model','Pempol_model','Kantor_model'));
+		$this->load->model(array('Global_model','Pempol_model','Kantor_model','Ssp_model'));
 
 		$this->load->helper('Global_helper');
 		
+		$this->load->library('datatables');
+		
+		date_default_timezone_set("Asia/Bangkok");
 	}
 
 	public function index()
@@ -27,14 +30,14 @@ class Dashboard extends CI_Controller {
 
 		switch ($role) {
 			case '0':
-
+				//print_r($_SESSION);
 				$data['sidebarMain'] = 'active';
 
 				$data['username'] = 'SUPERADMIN';
 
-				$data['agen'] = $this->Global_model->agen()->num_rows();
+				$data['agen'] = $this->Global_model->agen()->num_rows(); 
 
-				$data['namaKantor'] = $this->Global_model->namaKantor();
+				$data['namaKantor'] = $this->Global_model->kantorWilayah(); 
 				
 				$this->load->view('dashboard_pusat_view',$data);  
 
@@ -89,13 +92,15 @@ class Dashboard extends CI_Controller {
 		
 		//$data['kantor'] = $this->global_model->namaKantor();
 
+		$data['username'] = $_SESSION['username'];
+
 		$data['sidebarMain'] = 'active';
 
 		$data['agen'] = $this->Global_model->agen()->num_rows();
 
 		$data['pempol'] = $this->Global_model->listPempol();
 
-        $this->load->view('pempol_view',$data);    
+        	$this->load->view('pempol_view',$data);    
 		
 	}
 
@@ -117,8 +122,9 @@ class Dashboard extends CI_Controller {
 				break;
 
 			case '10':
-				$kode = $_SESSION['kodeKantorWilayah'];
+				$kode = $_SESSION['kodeKantor'];
 				$data['agen'] = $this->Global_model->agenCabang( $kode );
+				//echo $this->db->last_query();exit;
 				break;
 			
 			default:
@@ -128,9 +134,7 @@ class Dashboard extends CI_Controller {
 
 		$data['sidebarAgen'] = 'active';
 
-		$data['username'] = $_SESSION['username'];
-
-		
+		$data['username'] = $_SESSION['username'];	
 		
 		$this->load->view('dataAgen_view',$data); 
 		
@@ -138,6 +142,10 @@ class Dashboard extends CI_Controller {
 
 	function logout()
 	{
+		$this->db->set('ua_isLogin','0');
+		$this->db->where('ua_id',$_SESSION['userAuthId']);
+		$this->db->update('user_auth');
+		
 		session_destroy();
 		redirect();
 	}
@@ -180,7 +188,6 @@ class Dashboard extends CI_Controller {
         foreach ($list as $kantor) {
             $no++;
             $row = array();
-            $row[] = $no;
             $row[] = $kantor->k_kode;
             $row[] = $kantor->k_nama;
             $row[] = $kantor->k_kantor_wilayah;
@@ -206,5 +213,89 @@ class Dashboard extends CI_Controller {
     	$data['pempol'] = $this->db->query('SELECT * FROM report WHERE r_userIdPusat = '.$idPusat);
     	$this->load->view('modalPempol_view',$data); 
     }
+    
+    public function modalAgenWilayah( $kodeKantor )
+    {
+    	
+    	$data['agen'] = $this->db->query('SELECT * FROM user WHERE user_kodeKantor = "'.$kodeKantor.'" GROUP BY user_idPusat');
+    	$this->load->view('modalAgenWilayah_view',$data); 
+    }
+    
+    public function modalAgenBawahan( $idPusat )
+    {
+    	$data['bawahan'] = $this->db->query('SELECT * FROM user WHERE user_nomorAgenInduk = "'.$idPusat.'"');
+    	$this->load->view('modalAgenBawahan_view',$data);
+    }
+    
+    public function modalAgenPempol( $idPusat )
+    {
+    	$data['pempol'] = $this->db->query('SELECT * FROM report INNER JOIN user ON user_idPusat = r_userIdPusat WHERE r_userIdPusat = '.$idPusat);
+    	//echo $this->db->last_query();exit;
+    	$this->load->view('modalAgenPempol_view',$data);
+    }
+    
+    public function modalWilayahPempol( $kode )
+    {
+    	$data['pempol'] = $this->db->query('SELECT * FROM report LEFT JOIN user ON user_idPusat = r_userIdPusat WHERE r_kantorSKT = "'.$kode.'"');
+    	//echo $this->db->last_query();exit;
+    	$this->load->view('modalAgenPempol_view',$data);
+    }
+    
+    public function pempolAgen()
+    {
+	$data['username'] = $_SESSION['username'];
+	$data['pempol'] = $this->db->query('SELECT * FROM report INNER JOIN user ON user_idPusat = r_userIdPusat WHERE r_userIdPusat = '.$_SESSION['idPusat']);
+    	$this->load->view('pempolAgen_view',$data); 
+    }
+    
+    public function pempolWilayah()
+    {
+	$data['username'] = $_SESSION['username'];
+	//$data['pempol'] = $this->db->query('SELECT * FROM report INNER JOIN user ON user_idPusat = r_userIdPusat INNER JOIN master_kantor ON k_kode = r_kantorSKT WHERE k_kode_kantor_wilayah = "'.$_SESSION['kodeKantorWilayah'].'"');
+    	$this->load->view('pempolWilayah_view',$data); 
+    }
+    
+    public function pempolCabang()
+    {
+	$data['username'] = $_SESSION['username'];
+	$data['pempol'] = $this->db->query('SELECT * FROM report INNER JOIN user ON user_idPusat = r_userIdPusat WHERE r_kantorSKT = "'.$_SESSION['kodeKantor'].'"');
+    	$this->load->view('pempolAgen_view',$data); 
+    }
+    
+    public function jsonPempolWilayah()
+    {
+    	header('Content-Type: application/json');
+        echo $this->Ssp_model->json();
+    }
+    
+    function optionCabang()
+	{
+		$kodeWilayah = $_POST['kodeWilayah'];
+		$data = $this->db->query("SELECT * FROM master_kantor WHERE k_kode_kantor_wilayah = '".$kodeWilayah."'");
+		$html = '';
+		$html = '<option></option>';
+		foreach ($data->result() as $value)
+		{
+			$html .= '<option value='.$value->k_kode.'>'.$value->k_nama.'</option>';
+		}
+		echo $html;
+	}
+	
+	function filterCabang()
+	{
+		//print_r($_POST);exit;
+		$data['sidebarMain'] = 'active';
+
+		$data['username'] = 'SUPERADMIN';
+
+		$data['agen'] = $this->Global_model->agen()->num_rows(); 
+		
+		$data['namaKantor'] = $this->Global_model->kantorWilayah(); 
+
+		$data['namaKantorCabang'] = $this->Global_model->dataKantorWilayah( $_POST['wil'] );
+		
+		
+		$this->load->view('filterCabang_view',$data);  
+	}
 
 }

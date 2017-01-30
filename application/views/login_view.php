@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    <title>Sign In | Bootstrap Based Admin Template - Material Design</title>
+    <title>Sign In | SIMONA</title>
     <!-- Favicon-->
     <link rel="icon" href="<?php echo base_url() ?>assets/favicon.ico" type="image/x-icon">
 
@@ -87,9 +87,9 @@
                         <div class="col-xs-6">
                             <a href="<?php echo site_url('login/signUp') ?>">Register Now!</a>
                         </div>
-                        <div class="col-xs-6 align-right">
+                        <!--div class="col-xs-6 align-right">
                             <a href="forgot-password.html">Forgot Password?</a>
-                        </div>
+                        </div-->
                     </div>
                 </form>
             </div>

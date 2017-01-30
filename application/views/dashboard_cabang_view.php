@@ -19,7 +19,7 @@
 <section class="content">
         <div class="container-fluid">
             <div class="block-header">
-                <h2>DASHBOARD</h2>
+                <h2></h2>
             </div>
 
             <!-- Widgets -->
@@ -75,7 +75,7 @@
                     <div class="card">
                         <div class="header">
                             <h2>
-                                DATA KANTOR WILAYAH
+                                DATA KANTOR CABANG
                             </h2>
                             <ul class="header-dropdown m-r--5">
                                 <!--li class="dropdown">
@@ -91,7 +91,7 @@
                             </ul>
                         </div>
                         <div class="body">
-                            <table class="table table-bordered table-striped table-hover js-basic-example dataTable" id="tabel">
+                            <table class="table table-bordered table-striped table-hover nowrap" id="tabel" width="100%">
                                 <thead>
                                     <tr>
                                         <th>Kode kantor</th>
@@ -121,7 +121,7 @@
                                     <tr>
                                         <td><?php echo $row->k_kode ?></td>
                                         <td><?php echo $row->k_nama ?></td>
-                                        <td><?php jumlahAgenPerWilayah($row->k_kode) ?></td>
+                                        <td><a data-toggle="modal" data-target="#myModal" href="<?php echo site_url('dashboard/modalAgenWilayah/'.$row->k_kode) ?>" ><?php jumlahAgenPerWilayah($row->k_kode) ?></a></td>
                                         <td><?php echo number_format(jumlahPremiAFYPPerWilayah($row->k_kode),2); ?></td>
                                         <td><?php jumlahSPPerWilayah($row->k_kode) ?></td>
                                         <td><?php echo number_format(jumlahPremiPokokPerWilayah($row->k_kode),2) ?></td>
@@ -156,13 +156,21 @@
         
         var pathArray   =   window.location.pathname.split( '/' );
         var segment_1   =   pathArray[1];
-        var webroot     =   (window.location.protocol + "//" + window.location.host + "/" + segment_1 + "/");
+        var webroot     =   (window.location.protocol + "//" + window.location.host + "/");
 
         $('body').on('hidden.bs.modal', '.modal', function () {
           $(this).removeData('bs.modal');
         });
 
         $('.count-to').countTo();
+        
+        $(function () {
+	    $('#tabel').DataTable({
+	    	responsive: {
+		        details: true
+		    }
+	    });	
+	});
 
         var kodeWilayah = '<?php echo $_SESSION['kodeKantor'] ?>';
         

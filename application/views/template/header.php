@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    <title>Welcome To | Bootstrap Based Admin Template - Material Design</title>
+    <title>Welcome To | SIMONA</title>
     <!-- Favicon-->
     <link rel="icon" href="favicon.ico" type="image/x-icon">
 
@@ -24,6 +24,11 @@
 
     <!-- DataTable Css -->
     <link href="<?php echo base_url() ?>assets/plugins/jquery-datatable/skin/bootstrap/css/dataTables.bootstrap.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/fixedheader/3.1.2/css/fixedHeader.bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.1.1/css/responsive.bootstrap.min.css">
+
+	<!-- Select2 Css -->
+	<link href="<?php echo base_url() ?>assets/plugins/select2-4.0.3/dist/css/select2.min.css" rel="stylesheet" />
 
     <!-- Morris Chart Css-->
     <link href="<?php echo base_url() ?>assets/plugins/morrisjs/morris.css" rel="stylesheet" />
@@ -73,7 +78,7 @@
             <div class="navbar-header">
                 <a href="javascript:void(0);" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false"></a>
                 <a href="javascript:void(0);" class="bars"></a>
-                <a class="navbar-brand" href="index.html">ADMINBSB - MATERIAL DESIGN</a>
+                <a class="navbar-brand" href="<?php site_url('dashboard') ?>">SIMONA</a>
             </div>
             <div class="collapse navbar-collapse" id="navbar-collapse">
                 <ul class="nav navbar-nav navbar-right">

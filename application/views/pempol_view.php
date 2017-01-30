@@ -3,11 +3,11 @@
 <section class="content">
         <div class="container-fluid">
             <div class="block-header">
-                <h2>DASHBOARD</h2>
+                <h2></h2>
             </div>
 
             <!-- Widgets -->
-            <div class="row clearfix">
+            <!--div class="row clearfix">
                 <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                     <div class="info-box bg-pink hover-expand-effect">
                         <div class="icon">
@@ -52,7 +52,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div-->
 
             <div class="row clearfix">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -75,7 +75,7 @@
                             </ul>
                         </div>
                         <div class="body">
-                            <table class="table table-bordered table-striped table-hover js-basic-example dataTable" id="tabel">
+                            <table class="table table-bordered table-striped table-hover nowrap" id="tabel" width="100%">
                                 <thead>
                                     <tr>
                                         <th>Nomor</th>
@@ -126,7 +126,9 @@
          
             //datatables
             table = $('#tabel').DataTable({ 
-         
+         	responsive: {
+		        details: true
+		    },
                 "processing": true, //Feature control the processing indicator.
                 "serverSide": true, //Feature control DataTables' server-side processing mode.
                 "order": [], //Initial no order.

@@ -32,13 +32,22 @@ class Ssp_model extends CI_Model
 	    return $query;
 	}
 	
-	function json() {
-	        $this->datatables->select('r_nomorPolis, r_namaPempol, r_cbPremi, r_tanggalMulai, r_premiPokok, r_premiAFYP, r_premiTopUp , (r_premiTopUp + r_premiPokok) AS PP');
-	        $this->datatables->from('report');
-	        $this->datatables->join('master_kantor','r_kantorSKT = k_kode');
-	        $this->datatables->where('k_kode_kantor_wilayah',$_SESSION['kodeKantorWilayah']);
-	        //$this->datatables->add_column('view', '<a href="world/edit/$1">edit</a> | <a href="world/delete/$1">delete</a>', 'ID');
-	        return $this->datatables->generate();
-	    }
+	function json( $kodeKantorWilayah ) {
+        $this->datatables->select('r_nomorPolis, r_namaPempol, r_cbPremi, r_tanggalMulai, r_premiPokok, r_premiAFYP, r_premiTopUp , (r_premiTopUp + r_premiPokok) AS PP');
+        $this->datatables->from('report');
+        $this->datatables->join('master_kantor','r_kantorSKT = k_kode');
+        $this->datatables->where('k_kode_kantor_wilayah',$kodeKantorWilayah);
+        //$this->datatables->add_column('view', '<a href="world/edit/$1">edit</a> | <a href="world/delete/$1">delete</a>', 'ID');
+        return $this->datatables->generate();
+    }
+
+    function jsonDataAgen()
+    {
+    	$this->datatables->select('user_idPusat, user_namaAgen, user_namaJabatanAgen, user_nomorLisensi');
+		$this->datatables->from('user');
+		$this->datatables->join('master_kantor','k_kode = user_kodeKantor');
+		$this->datatables->group_by('user_namaAgen');
+		return $this->datatables->generate();
+    }
 }
 ?>

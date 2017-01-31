@@ -100,7 +100,7 @@ class Dashboard extends CI_Controller {
 
 		$data['pempol'] = $this->Global_model->listPempol();
 
-        	$this->load->view('pempol_view',$data);    
+        $this->load->view('pempol_view',$data);    
 		
 	}
 
@@ -114,6 +114,13 @@ class Dashboard extends CI_Controller {
 		switch ($role) {
 			case '0':
 				$data['agen'] = $this->Global_model->agen();
+				
+				$data['sidebarAgen'] = 'active';
+
+				$data['username'] = $_SESSION['username'];	
+				
+				$this->load->view('dataAgenPusat_view',$data); 
+
 				break;
 
 			case '9':
@@ -123,20 +130,26 @@ class Dashboard extends CI_Controller {
 
 			case '10':
 				$kode = $_SESSION['kodeKantor'];
+				
 				$data['agen'] = $this->Global_model->agenCabang( $kode );
-				//echo $this->db->last_query();exit;
+				
+				$data['sidebarAgen'] = 'active';
+
+				$data['username'] = $_SESSION['username'];	
+				
+				$this->load->view('dataAgen_view',$data); 
 				break;
 			
 			default:
 				$data['agen'] = $this->Global_model->agenPribadi( $_SESSION['idPusat'] );
+
+				$data['sidebarAgen'] = 'active';
+
+				$data['username'] = $_SESSION['username'];	
+				
+				$this->load->view('dataAgen_view',$data); 
 				break;
 		}
-
-		$data['sidebarAgen'] = 'active';
-
-		$data['username'] = $_SESSION['username'];	
-		
-		$this->load->view('dataAgen_view',$data); 
 		
 	}
 
@@ -250,8 +263,8 @@ class Dashboard extends CI_Controller {
     
     public function pempolWilayah()
     {
-	$data['username'] = $_SESSION['username'];
-	//$data['pempol'] = $this->db->query('SELECT * FROM report INNER JOIN user ON user_idPusat = r_userIdPusat INNER JOIN master_kantor ON k_kode = r_kantorSKT WHERE k_kode_kantor_wilayah = "'.$_SESSION['kodeKantorWilayah'].'"');
+		$data['username'] = $_SESSION['username'];
+	
     	$this->load->view('pempolWilayah_view',$data); 
     }
     
@@ -262,10 +275,10 @@ class Dashboard extends CI_Controller {
     	$this->load->view('pempolAgen_view',$data); 
     }
     
-    public function jsonPempolWilayah()
+    public function jsonPempolWilayah( $kodeKantorWilayah )
     {
     	header('Content-Type: application/json');
-        echo $this->Ssp_model->json();
+        echo $this->Ssp_model->json( $kodeKantorWilayah );
     }
     
     function optionCabang()
@@ -296,6 +309,26 @@ class Dashboard extends CI_Controller {
 		
 		
 		$this->load->view('filterCabang_view',$data);  
+	}
+
+	function jsonDataAgen()
+	{
+		header('Content-Type: application/json');
+        echo $this->Ssp_model->jsonDataAgen();
+	}
+
+	function linkAgenJumlahOrganisasi()
+	{
+		$id = $_POST['idPusat'];
+
+		echo "<a data-toggle='modal' data-target='#myModal' href='".site_url('dashboard/modalAgenBawahan/'.$id)."' > ".jumlahOrganisasiAgen($id) ."</a>";
+	}
+
+	function linkAgenTotalProduksi()
+	{
+		$id = $_POST['idPusat'];
+
+		echo totalProduksi($id);
 	}
 
 }

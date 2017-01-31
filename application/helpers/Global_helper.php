@@ -68,9 +68,9 @@ function jumlahOrganisasiAgen( $idPusat )
 	
 	$sql = "SELECT COUNT(user_idPusat) AS JUMLAH FROM user WHERE user_nomorAgenInduk = ".$idPusat;
 	$query = $ci->db->query($sql);
-    	$row = $query->row()->JUMLAH;
+	$row = $query->row()->JUMLAH;
 
-    	return $row;
+	return $row;
 }
 
 function totalProduksi( $idPusat )

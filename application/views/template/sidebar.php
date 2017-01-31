@@ -69,6 +69,12 @@
                             <span>Data Pempol</span>
                         </a>
                     </li>
+                    <li class="<?php echo ($us_2 == 'dataAgen') ? "active" : "" ?>">
+                        <a href="<?php echo site_url('dashboard/dataAgen') ?>">
+                            <i class="material-icons">people</i>
+                            <span>Data Agen</span>
+                        </a>
+                    </li>
                     <?php
                                  break;
 

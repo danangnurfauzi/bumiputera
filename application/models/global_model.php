@@ -35,8 +35,9 @@ class Global_model extends CI_Model
 
 	function agen()
 	{
-		$this->db->select('user_namaAgen, user_namaJabatanAgen, user_nomorLisensi');
+		$this->db->select('user_idPusat, user_namaAgen, user_namaJabatanAgen, user_nomorLisensi');
 		$this->db->from('user');
+		$this->db->join('master_kantor','k_kode = user_kodeKantor');
 		$this->db->group_by('user_namaAgen');
 		return $this->db->get();
 	}

@@ -93,6 +93,8 @@
          
         });**/
         
+        var kodeKantorWilayah = '<?php echo $_SESSION['kodeKantorWilayah'] ?>';
+
         $(document).ready(function() {
 	        $.fn.dataTableExt.oApi.fnPagingInfo = function(oSettings)
 	        {
@@ -127,7 +129,7 @@
 	            destroy: true,
 	            processing: true,
 	            serverSide: true,
-	            ajax: {"url": "<?php echo site_url('dashboard/jsonPempolWilayah')?>", "type": "POST"},
+	            ajax: {"url": "<?php echo site_url('dashboard/jsonPempolWilayah/'.$_SESSION['kodeKantorWilayah'])?>", "type": "POST"},
 	            columns: [
 	            	{"data": null},
 	                {"data": "r_nomorPolis"},

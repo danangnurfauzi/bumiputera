@@ -296,49 +296,123 @@ class Dashboard extends CI_Controller {
 		echo $html;
 	}
 	
-	function filterCabang( $kode )
+	function filterCabang( $posisi , $kode )
 	{
 		//print_r($_POST);exit;
 		$data['sidebarMain'] = 'active';
 
 		$data['username'] = 'SUPERADMIN';
 
-		$data['agen'] = $this->Global_model->agen()->num_rows(); 
-		
-		$data['namaKantor'] = $this->Global_model->kantorWilayah(); 
+		switch ($posisi) {
 
-		$data['namaKantorCabang'] = $this->Global_model->dataKantorWilayah( $kode );
+			case 'wilayah':
 
-		$data['wilayah'] = $kode;
+				$data['namaKantor'] = $this->Global_model->kantorWilayah(); 
+
+				$data['namaKantorCabang'] = $this->Global_model->dataKantorWilayah( $kode );
+
+				$data['wilayah'] = $kode;
+
+				$data['posisi'] = $posisi;
+				
+				break;
+			
+			case 'cabang':
+
+				$data['namaKantor'] = $this->Global_model->kantorWilayah(); 
+
+				$data['namaKantorCabang'] = $this->Global_model->dataKantorCabang( $kode );
+
+				$data['wilayah'] = $kode;
+
+				$data['posisi'] = $posisi;
+				
+				break;
+
+		}
 		
 		$this->load->view('filterCabang_view',$data);  
 	}
 
 	function postFilterCabang()
 	{
-		redirect('dashboard/filterCabang/'.$_POST['wil']);
+		
+		//print_r( $_POST );exit;
+		$wil = $_POST['wil'];
+
+		if ( isset( $_POST['cab'] ) )
+		{
+			$cab = $_POST['cab'];
+		}
+		else
+		{
+			$cab = null;
+		}
+
+		if ( $cab == null)
+		{
+			redirect('dashboard/filterCabang/wilayah/'.$wil);
+		}
+		else
+		{
+			redirect('dashboard/filterCabang/cabang/'.$cab);
+		}
+
 	}
 
-	function filterCabangAgen($kode)
+	function filterCabangAgen( $posisi , $kode )
 	{
 		$cabang = $kode;
 
 		$data['cabang'] = $cabang;
-
-		$data['agen'] = $this->Global_model->agenCabang( $cabang );
 				
 		$data['sidebarAgen'] = 'active';
 
 		$data['username'] = $_SESSION['username'];	
 
 		$data['namaKantor'] = $this->Global_model->kantorWilayah(); 
+
+		switch ($posisi){
+
+			case 'wilayah':
+				
+				$data['agen'] = $this->Global_model->agenWilayah( $cabang );
+
+				break;
+			
+			case 'cabang':
+
+				$data['agen'] = $this->Global_model->agenCabang( $cabang );
+				
+				break;
+		}
 		
 		$this->load->view('filterCabangAgen_view',$data);  
 	}
 
 	function postFilterCabangAgen()
 	{
-		redirect('dashboard/filterCabangAgen/'.$_POST['cab']);
+		
+		$wil = $_POST['wil'];
+
+		if ( isset( $_POST['cab'] ) )
+		{
+			$cab = $_POST['cab'];
+		}
+		else
+		{
+			$cab = null;
+		}
+
+		if ($cab == null)
+		{
+			redirect('dashboard/filterCabangAgen/wilayah/'.$wil);
+		}
+		else
+		{
+			redirect('dashboard/filterCabangAgen/cabang/'.$_POST['cab']);
+		}
+
 	}
 
 	function jsonDataAgen()

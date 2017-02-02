@@ -75,7 +75,7 @@
                             <span>Data Agen</span>
                         </a>
                     </li>
-                    <li class="<?php echo ($us_2 == 'dataAgen') ? "active" : "" ?>">
+                    <li class="<?php echo ($us_2 == 'pencarianData') ? "active" : "" ?>">
                         <a href="<?php echo site_url('dashboard/pencarianData') ?>">
                             <i class="material-icons">people</i>
                             <span>Pencarian Data</span>

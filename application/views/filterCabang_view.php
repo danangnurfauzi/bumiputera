@@ -99,7 +99,7 @@
                             </ul>
                         </div>
                         <div class="body">
-                        	<form action="post" action="<?php site_url('Dashboard/filterCabang') ?>">
+                        	<form method="post" action="<?php echo site_url('dashboard/postFilterCabang') ?>">
                         	<div class="row clearfix">
                             		<div class="col-md-4">
                                     
@@ -267,6 +267,8 @@
             $("#imgup").show();
             $("#imgagen").show();
 
+            <?php if($posisi == 'wilayah') { ?>
+
             $.ajax({
                 url: '<?php echo base_url() ?>counter/jumlahAgenPusat/<?php echo $wilayah ?>',
                 type: 'get',
@@ -302,6 +304,46 @@
                     $('#jumlahPP').text(response);
                 }
             });
+
+            <?php } else { ?>
+
+            $.ajax({
+                url: '<?php echo base_url() ?>counter/jumlahAgenCabang/<?php echo $wilayah ?>',
+                type: 'get',
+                success:function(response){
+                    $("#imgagen").hide();
+                    $('#jumlahAgen').text(response);
+                }
+            });
+
+            $.ajax({
+                url: '<?php echo base_url() ?>counter/jumlahSPCabang/<?php echo $wilayah ?>',
+                type: 'get',
+                success:function(response){
+                    $("#imgsp").hide();
+                    $('#jumlahSP').text(response);
+                }
+            });
+
+            $.ajax({
+                url: '<?php echo base_url() ?>counter/jumlahUPCabang/<?php echo $wilayah ?>',
+                type: 'get',
+                success:function(response){
+                    $("#imgup").hide();
+                    $('#jumlahUP').text(response);
+                }
+            });
+
+            $.ajax({
+                url: '<?php echo base_url() ?>counter/jumlahPPCabang/<?php echo $wilayah ?>',
+                type: 'get',
+                success:function(response){
+                    $("#imgpp").hide();
+                    $('#jumlahPP').text(response);
+                }
+            });
+
+            <?php } ?>
 
         });
 

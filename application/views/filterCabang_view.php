@@ -31,29 +31,35 @@
                         </div>
                         <div class="content">
                             <div class="text">JUMLAH SP</div>
-                            <div class="number count-to" data-from="0" data-to="125" data-speed="15" data-fresh-interval="20"></div>
+                            <div class="number" id="jumlahSP">
+                                <img src="http://1opmgif057j3093j-zippykid.netdna-ssl.com/wp-content/themes/Extra/images/loading.gif" width="25" id="imgsp" style="display: none;" />
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                     <div class="info-box bg-cyan hover-expand-effect">
                         <div class="icon">
-                            <i class="material-icons">help</i>
+                            <i class="material-icons">account_balance_wallet</i>
                         </div>
                         <div class="content">
                             <div class="text">JUMLAH UP</div>
-                            <div class="number count-to" data-from="0" data-to="257" data-speed="1000" data-fresh-interval="20"></div>
+                            <div class="number" id="jumlahUP">
+                                <img src="http://1opmgif057j3093j-zippykid.netdna-ssl.com/wp-content/themes/Extra/images/loading.gif" width="25" id="imgup" style="display: none;" />
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                     <div class="info-box bg-light-green hover-expand-effect">
                         <div class="icon">
-                            <i class="material-icons">forum</i>
+                            <i class="material-icons">account_balance_wallet</i>
                         </div>
                         <div class="content">
-                            <div class="text">ATASAN</div>
-                            <div class="text"></div>
+                            <div class="text">JUMLAH PP</div>
+                            <div class="number" id="jumlahPP">
+                                <img src="http://1opmgif057j3093j-zippykid.netdna-ssl.com/wp-content/themes/Extra/images/loading.gif" width="25" id="imgpp" style="display: none;" />
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -64,7 +70,9 @@
                         </div>
                         <div class="content">
                             <div class="text">JUMLAH AGEN</div>
-                            <div class="number count-to" data-from="0" data-to="<?php echo $agen ?>" data-speed="1000" data-fresh-interval="20"></div>
+                            <div id="jumlahAgen" class="number">
+                                <img src="http://1opmgif057j3093j-zippykid.netdna-ssl.com/wp-content/themes/Extra/images/loading.gif" width="25" id="imgagen" style="display: none;" />
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -241,7 +249,7 @@
 	                $("#filterCabang").html(response);
 	            }
 	        });
-	});
+	   });
         	
         $(document).ready(function() {
         	$('#tabel').DataTable({
@@ -250,6 +258,51 @@
 			    },
 			paging: false
         	});	
+        });
+
+        $( document ).ready(function() {
+
+            $("#imgsp").show();
+            $("#imgpp").show();
+            $("#imgup").show();
+            $("#imgagen").show();
+
+            $.ajax({
+                url: '<?php echo base_url() ?>counter/jumlahAgenPusat/<?php echo $wilayah ?>',
+                type: 'get',
+                success:function(response){
+                    $("#imgagen").hide();
+                    $('#jumlahAgen').text(response);
+                }
+            });
+
+            $.ajax({
+                url: '<?php echo base_url() ?>counter/jumlahSPPusat/<?php echo $wilayah ?>',
+                type: 'get',
+                success:function(response){
+                    $("#imgsp").hide();
+                    $('#jumlahSP').text(response);
+                }
+            });
+
+            $.ajax({
+                url: '<?php echo base_url() ?>counter/jumlahUPPusat/<?php echo $wilayah ?>',
+                type: 'get',
+                success:function(response){
+                    $("#imgup").hide();
+                    $('#jumlahUP').text(response);
+                }
+            });
+
+            $.ajax({
+                url: '<?php echo base_url() ?>counter/jumlahPPPusat/<?php echo $wilayah ?>',
+                type: 'get',
+                success:function(response){
+                    $("#imgpp").hide();
+                    $('#jumlahPP').text(response);
+                }
+            });
+
         });
 
     </script>

@@ -43,7 +43,7 @@
                             </ul>
                         </div>
                         <div class="body">
-                            <form method="post" action="<?php echo site_url('dashboard/filterCabangAgen') ?>">
+                            <form method="post" action="<?php echo site_url('dashboard/postFilterCabangAgen') ?>">
                             <div class="row clearfix">
                                     <div class="col-md-4">
                                     

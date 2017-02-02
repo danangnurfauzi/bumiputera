@@ -177,7 +177,7 @@
         $( document ).ready(function() {
 
             $.ajax({
-                url: webroot+'counter/jumlahAgenCabang/'+kodeWilayah,
+                url: '<?php echo base_url() ?>counter/jumlahAgenCabang/'+kodeWilayah,
                 type: 'get',
                 success:function(response){
                     $('#jumlahAgen').text(response);
@@ -185,7 +185,7 @@
             });
 
             $.ajax({
-                url: webroot+'counter/jumlahSPCabang/'+kodeWilayah,
+                url: '<?php echo base_url() ?>counter/jumlahSPCabang/'+kodeWilayah,
                 type: 'get',
                 success:function(response){
                     $('#jumlahSP').text(response);
@@ -193,7 +193,7 @@
             });
 
             $.ajax({
-                url: webroot+'counter/jumlahUPCabang/'+kodeWilayah,
+                url: '<?php echo base_url() ?>counter/jumlahUPCabang/'+kodeWilayah,
                 type: 'get',
                 success:function(response){
                     $('#jumlahUP').text(response);
@@ -201,7 +201,7 @@
             });
 
             $.ajax({
-                url: webroot+'counter/jumlahPPCabang/'+kodeWilayah,
+                url: '<?php echo base_url() ?>counter/jumlahPPCabang/'+kodeWilayah,
                 type: 'get',
                 success:function(response){
                     $('#jumlahPP').text(response);

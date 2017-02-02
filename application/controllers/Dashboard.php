@@ -296,7 +296,7 @@ class Dashboard extends CI_Controller {
 		echo $html;
 	}
 	
-	function filterCabang()
+	function filterCabang( $kode )
 	{
 		//print_r($_POST);exit;
 		$data['sidebarMain'] = 'active';
@@ -307,14 +307,21 @@ class Dashboard extends CI_Controller {
 		
 		$data['namaKantor'] = $this->Global_model->kantorWilayah(); 
 
-		$data['namaKantorCabang'] = $this->Global_model->dataKantorWilayah( $_POST['wil'] );
+		$data['namaKantorCabang'] = $this->Global_model->dataKantorWilayah( $kode );
+
+		$data['wilayah'] = $kode;
 		
 		$this->load->view('filterCabang_view',$data);  
 	}
 
-	function filterCabangAgen()
+	function postFilterCabang()
 	{
-		$cabang = $_POST['cab'];
+		redirect('dashboard/filterCabang/'.$_POST['wil']);
+	}
+
+	function filterCabangAgen($kode)
+	{
+		$cabang = $kode;
 
 		$data['cabang'] = $cabang;
 
@@ -327,6 +334,11 @@ class Dashboard extends CI_Controller {
 		$data['namaKantor'] = $this->Global_model->kantorWilayah(); 
 		
 		$this->load->view('filterCabangAgen_view',$data);  
+	}
+
+	function postFilterCabangAgen()
+	{
+		redirect('dashboard/filterCabangAgen/'.$_POST['cab']);
 	}
 
 	function jsonDataAgen()

@@ -67,4 +67,65 @@ class Counter extends CI_Controller {
 		echo number_format($query->row()->JUMLAH_PREMI_POKOK + $query->row()->JUMLAH_PREMI_TOP_UP);
 	}
 
+	function jumlahAgenPusat( $kode = '' )
+	{
+		
+		if ( $kode == '') 
+		{
+			$query = $this->db->query('SELECT COUNT(user_id) AS JUMLAH FROM master_kantor INNER JOIN user ON k_kode = user_kodeKantor');
+		}
+		else
+		{
+			$query = $this->db->query('SELECT COUNT(user_id) AS JUMLAH FROM master_kantor INNER JOIN user ON k_kode = user_kodeKantor WHERE k_kode_kantor_wilayah = "'.$kode.'"');
+		}
+
+		echo $query->row()->JUMLAH ;
+	}
+
+	function jumlahSPPusat( $kode = '' )
+	{
+		
+		if ( $kode == '')
+		{
+			$query = $this->db->query("SELECT COUNT(r.r_nomorPolis) AS JUMLAH FROM master_kantor k INNER JOIN report r ON k.k_kode = r.r_kantorSKT");
+		}
+		else
+		{
+			$query = $this->db->query("SELECT COUNT(r.r_nomorPolis) AS JUMLAH FROM master_kantor k INNER JOIN report r ON k.k_kode = r.r_kantorSKT WHERE k_kode_kantor_wilayah = '".$kode."'");
+		}
+
+		echo number_format($query->row()->JUMLAH);
+	}
+
+	function jumlahUPPusat( $kode = '' )
+	{
+		
+		if ( $kode == '') 
+		{
+			$query = $this->db->query("SELECT SUM(r.r_premiPokok) AS JUMLAH FROM master_kantor k INNER JOIN report r ON k.k_kode = r.r_kantorSKT");
+		}
+		else
+		{
+			$query = $this->db->query("SELECT SUM(r.r_premiPokok) AS JUMLAH FROM master_kantor k INNER JOIN report r ON k.k_kode = r.r_kantorSKT WHERE k_kode_kantor_wilayah = '".$kode."'");
+		}
+		
+
+		echo number_format($query->row()->JUMLAH);
+	}
+
+	function jumlahPPPusat( $kode = '' )
+	{
+		
+		if ( $kode == '' ) 
+		{
+			$query = $this->db->query("SELECT SUM(r.r_premiPokok) AS JUMLAH_PREMI_POKOK , SUM(r.r_premiTopUp) AS JUMLAH_PREMI_TOP_UP FROM master_kantor k INNER JOIN report r ON k.k_kode = r.r_kantorSKT");
+		}
+		else
+		{
+			$query = $this->db->query("SELECT SUM(r.r_premiPokok) AS JUMLAH_PREMI_POKOK , SUM(r.r_premiTopUp) AS JUMLAH_PREMI_TOP_UP FROM master_kantor k INNER JOIN report r ON k.k_kode = r.r_kantorSKT WHERE k_kode_kantor_wilayah = '".$kode."'");
+		}
+
+		echo number_format($query->row()->JUMLAH_PREMI_POKOK + $query->row()->JUMLAH_PREMI_TOP_UP);
+	}
+
 }

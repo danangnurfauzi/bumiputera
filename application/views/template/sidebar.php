@@ -75,6 +75,12 @@
                             <span>Data Agen</span>
                         </a>
                     </li>
+                    <li class="<?php echo ($us_2 == 'dataAgen') ? "active" : "" ?>">
+                        <a href="<?php echo site_url('dashboard/pencarianData') ?>">
+                            <i class="material-icons">people</i>
+                            <span>Pencarian Data</span>
+                        </a>
+                    </li>
                     <?php
                                  break;
 

@@ -49,5 +49,15 @@ class Ssp_model extends CI_Model
 		$this->datatables->group_by('user_namaAgen');
 		return $this->datatables->generate();
     }
+
+    function jsonDataAgenCabang($cabang)
+    {
+    	$this->datatables->select('user_idPusat, user_namaAgen, user_namaJabatanAgen, user_nomorLisensi');
+		$this->datatables->from('user');
+		$this->datatables->join('master_kantor','k_kode = user_kodeKantor');
+		$this->datatables->where('user_kodeKantor',$cabang);
+		$this->datatables->group_by('user_namaAgen');
+		return $this->datatables->generate();
+    }
 }
 ?>

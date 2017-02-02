@@ -225,7 +225,7 @@
 	                $("#filterCabang").html(response);
 	            }
 	        });
-	});
+	    });
         	
         $(document).ready(function() {
         	$('#tabel').DataTable({

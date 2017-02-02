@@ -118,6 +118,8 @@ class Dashboard extends CI_Controller {
 				$data['sidebarAgen'] = 'active';
 
 				$data['username'] = $_SESSION['username'];	
+
+				$data['namaKantor'] = $this->Global_model->kantorWilayah(); 
 				
 				$this->load->view('dataAgenPusat_view',$data); 
 
@@ -307,14 +309,36 @@ class Dashboard extends CI_Controller {
 
 		$data['namaKantorCabang'] = $this->Global_model->dataKantorWilayah( $_POST['wil'] );
 		
-		
 		$this->load->view('filterCabang_view',$data);  
+	}
+
+	function filterCabangAgen()
+	{
+		$cabang = $_POST['cab'];
+
+		$data['cabang'] = $cabang;
+
+		$data['agen'] = $this->Global_model->agenCabang( $cabang );
+				
+		$data['sidebarAgen'] = 'active';
+
+		$data['username'] = $_SESSION['username'];	
+
+		$data['namaKantor'] = $this->Global_model->kantorWilayah(); 
+		
+		$this->load->view('filterCabangAgen_view',$data);  
 	}
 
 	function jsonDataAgen()
 	{
 		header('Content-Type: application/json');
         echo $this->Ssp_model->jsonDataAgen();
+	}
+
+	function jsonDataAgenCabang($cab)
+	{
+		header('Content-Type: application/json');
+        echo $this->Ssp_model->jsonDataAgenCabang($cab);
 	}
 
 	function linkAgenJumlahOrganisasi()
@@ -329,6 +353,309 @@ class Dashboard extends CI_Controller {
 		$id = $_POST['idPusat'];
 
 		echo totalProduksi($id);
+	}
+
+	function pencarianData()
+	{
+		$data['sidebarMain'] = 'active';
+
+		$data['username'] = 'SUPERADMIN';
+
+		$data['namaKantor'] = $this->Global_model->kantorWilayah(); 
+		
+		$this->load->view('pencarianData_view',$data);  
+	}
+
+	function berlaku( $jenis , $kode , $status )
+	{
+		$tanggal = $_POST['tanggal'];
+		switch ($jenis) {
+			case 'agen':
+				
+				if ( $status == 1 )
+				{
+					$hasil = $this->db->query('
+												SELECT k_kode_kantor_wilayah, user_kodeJabatanAgen, COUNT(user_id) AS JUMLAH
+												FROM user
+												INNER JOIN master_kantor ON user_kodeKantor = k_kode
+												WHERE "'.$tanggal.'" < user_tanggalLisensiAkhir AND k_kode_kantor_wilayah = "'.$kode.'"
+												AND user_kodeJabatanAgen = "AGN" AND user_statusKadaluarsa = "BELUM KADALUARSA"
+												GROUP BY k_kode_kantor_wilayah, user_kodeJabatanAgen
+											');
+				}
+				else
+				{
+					$hasil = $this->db->query('
+												SELECT k_kode_kantor_wilayah, user_kodeJabatanAgen, COUNT(user_id) AS JUMLAH
+												FROM user
+												INNER JOIN master_kantor ON user_kodeKantor = k_kode
+												WHERE "'.$tanggal.'" < user_tanggalLisensiAkhir AND k_kode_kantor_wilayah = "'.$kode.'"
+												AND user_kodeJabatanAgen = "AGN" AND user_statusKadaluarsa <> "BELUM KADALUARSA"
+												GROUP BY k_kode_kantor_wilayah, user_kodeJabatanAgen
+											');
+				}
+
+				if ($hasil->num_rows() > 0)
+				{
+					echo $hasil->row()->JUMLAH;
+				}
+				else
+				{
+					echo '0';
+				}
+
+				break;
+			
+			case 'ak':
+				
+				if ( $status == 1 )
+				{
+					$hasil = $this->db->query('
+												SELECT k_kode_kantor_wilayah, user_kodeJabatanAgen, COUNT(user_id) AS JUMLAH
+												FROM user
+												INNER JOIN master_kantor ON user_kodeKantor = k_kode
+												WHERE "'.$tanggal.'" < user_tanggalLisensiAkhir AND k_kode_kantor_wilayah = "'.$kode.'"
+												AND user_kodeJabatanAgen = "AKO" AND user_statusKadaluarsa = "BELUM KADALUARSA"
+												GROUP BY k_kode_kantor_wilayah, user_kodeJabatanAgen
+											');
+				}
+				else
+				{
+					$hasil = $this->db->query('
+												SELECT k_kode_kantor_wilayah, user_kodeJabatanAgen, COUNT(user_id) AS JUMLAH
+												FROM user
+												INNER JOIN master_kantor ON user_kodeKantor = k_kode
+												WHERE "'.$tanggal.'" < user_tanggalLisensiAkhir AND k_kode_kantor_wilayah = "'.$kode.'"
+												AND user_kodeJabatanAgen = "AKO" AND user_statusKadaluarsa <> "BELUM KADALUARSA"
+												GROUP BY k_kode_kantor_wilayah, user_kodeJabatanAgen
+											');
+				}
+
+				if ($hasil->num_rows() > 0)
+				{
+					echo $hasil->row()->JUMLAH;
+				}
+				else
+				{
+					echo '0';
+				}
+
+				break;
+
+			case 'ram':
+				
+				if ( $status == 1 )
+				{
+					$hasil = $this->db->query('
+												SELECT k_kode_kantor_wilayah, user_kodeJabatanAgen, COUNT(user_id) AS JUMLAH
+												FROM user
+												INNER JOIN master_kantor ON user_kodeKantor = k_kode
+												WHERE "'.$tanggal.'" < user_tanggalLisensiAkhir AND k_kode_kantor_wilayah = "'.$kode.'"
+												AND user_kodeJabatanAgen = "RAM" AND user_statusKadaluarsa = "BELUM KADALUARSA"
+												GROUP BY k_kode_kantor_wilayah, user_kodeJabatanAgen
+											');
+				}
+				else
+				{
+					$hasil = $this->db->query('
+												SELECT k_kode_kantor_wilayah, user_kodeJabatanAgen, COUNT(user_id) AS JUMLAH
+												FROM user
+												INNER JOIN master_kantor ON user_kodeKantor = k_kode
+												WHERE "'.$tanggal.'" < user_tanggalLisensiAkhir AND k_kode_kantor_wilayah = "'.$kode.'"
+												AND user_kodeJabatanAgen = "RAM" AND user_statusKadaluarsa <> "BELUM KADALUARSA"
+												GROUP BY k_kode_kantor_wilayah, user_kodeJabatanAgen
+											');
+				}
+
+				if ($hasil->num_rows() > 0)
+				{
+					echo $hasil->row()->JUMLAH;
+				}
+				else
+				{
+					echo '0';
+				}
+
+				break;
+
+			case 'sam':
+				
+				if ( $status == 1 )
+				{
+					$hasil = $this->db->query('
+												SELECT k_kode_kantor_wilayah, user_kodeJabatanAgen, COUNT(user_id) AS JUMLAH
+												FROM user
+												INNER JOIN master_kantor ON user_kodeKantor = k_kode
+												WHERE "'.$tanggal.'" < user_tanggalLisensiAkhir AND k_kode_kantor_wilayah = "'.$kode.'"
+												AND user_kodeJabatanAgen = "SAM" AND user_statusKadaluarsa = "BELUM KADALUARSA"
+												GROUP BY k_kode_kantor_wilayah, user_kodeJabatanAgen
+											');
+				}
+				else
+				{
+					$hasil = $this->db->query('
+												SELECT k_kode_kantor_wilayah, user_kodeJabatanAgen, COUNT(user_id) AS JUMLAH
+												FROM user
+												INNER JOIN master_kantor ON user_kodeKantor = k_kode
+												WHERE "'.$tanggal.'" < user_tanggalLisensiAkhir AND k_kode_kantor_wilayah = "'.$kode.'"
+												AND user_kodeJabatanAgen = "SAM" AND user_statusKadaluarsa <> "BELUM KADALUARSA"
+												GROUP BY k_kode_kantor_wilayah, user_kodeJabatanAgen
+											');
+				}
+
+				if ($hasil->num_rows() > 0)
+				{
+					echo $hasil->row()->JUMLAH;
+				}
+				else
+				{
+					echo '0';
+				}
+
+				break;
+
+			case 'am':
+				
+				if ( $status == 1 )
+				{
+					$hasil = $this->db->query('
+												SELECT k_kode_kantor_wilayah, user_kodeJabatanAgen, COUNT(user_id) AS JUMLAH
+												FROM user
+												INNER JOIN master_kantor ON user_kodeKantor = k_kode
+												WHERE "'.$tanggal.'" < user_tanggalLisensiAkhir AND k_kode_kantor_wilayah = "'.$kode.'"
+												AND user_kodeJabatanAgen = "AM" AND user_statusKadaluarsa = "BELUM KADALUARSA"
+												GROUP BY k_kode_kantor_wilayah, user_kodeJabatanAgen
+											');
+				}
+				else
+				{
+					$hasil = $this->db->query('
+												SELECT k_kode_kantor_wilayah, user_kodeJabatanAgen, COUNT(user_id) AS JUMLAH
+												FROM user
+												INNER JOIN master_kantor ON user_kodeKantor = k_kode
+												WHERE "'.$tanggal.'" < user_tanggalLisensiAkhir AND k_kode_kantor_wilayah = "'.$kode.'"
+												AND user_kodeJabatanAgen = "AM" AND user_statusKadaluarsa <> "BELUM KADALUARSA"
+												GROUP BY k_kode_kantor_wilayah, user_kodeJabatanAgen
+											');
+				}
+
+				if ($hasil->num_rows() > 0)
+				{
+					echo $hasil->row()->JUMLAH;
+				}
+				else
+				{
+					echo '0';
+				}
+
+				break;
+
+			case 'um':
+				
+				if ( $status == 1 )
+				{
+					$hasil = $this->db->query('
+												SELECT k_kode_kantor_wilayah, user_kodeJabatanAgen, COUNT(user_id) AS JUMLAH
+												FROM user
+												INNER JOIN master_kantor ON user_kodeKantor = k_kode
+												WHERE "'.$tanggal.'" < user_tanggalLisensiAkhir AND k_kode_kantor_wilayah = "'.$kode.'"
+												AND user_kodeJabatanAgen = "UM" AND user_statusKadaluarsa = "BELUM KADALUARSA"
+												GROUP BY k_kode_kantor_wilayah, user_kodeJabatanAgen
+											');
+				}
+				else
+				{
+					$hasil = $this->db->query('
+												SELECT k_kode_kantor_wilayah, user_kodeJabatanAgen, COUNT(user_id) AS JUMLAH
+												FROM user
+												INNER JOIN master_kantor ON user_kodeKantor = k_kode
+												WHERE "'.$tanggal.'" < user_tanggalLisensiAkhir AND k_kode_kantor_wilayah = "'.$kode.'"
+												AND user_kodeJabatanAgen = "UM" AND user_statusKadaluarsa <> "BELUM KADALUARSA"
+												GROUP BY k_kode_kantor_wilayah, user_kodeJabatanAgen
+											');
+				}
+
+				if ($hasil->num_rows() > 0)
+				{
+					echo $hasil->row()->JUMLAH;
+				}
+				else
+				{
+					echo '0';
+				}
+
+				break;
+
+			case 'fc':
+				
+				if ( $status == 1 )
+				{
+					$hasil = $this->db->query('
+												SELECT k_kode_kantor_wilayah, user_kodeJabatanAgen, COUNT(user_id) AS JUMLAH
+												FROM user
+												INNER JOIN master_kantor ON user_kodeKantor = k_kode
+												WHERE "'.$tanggal.'" < user_tanggalLisensiAkhir AND k_kode_kantor_wilayah = "'.$kode.'"
+												AND user_kodeJabatanAgen = "FC" AND user_statusKadaluarsa = "BELUM KADALUARSA"
+												GROUP BY k_kode_kantor_wilayah, user_kodeJabatanAgen
+											');
+				}
+				else
+				{
+					$hasil = $this->db->query('
+												SELECT k_kode_kantor_wilayah, user_kodeJabatanAgen, COUNT(user_id) AS JUMLAH
+												FROM user
+												INNER JOIN master_kantor ON user_kodeKantor = k_kode
+												WHERE "'.$tanggal.'" < user_tanggalLisensiAkhir AND k_kode_kantor_wilayah = "'.$kode.'"
+												AND user_kodeJabatanAgen = "FC" AND user_statusKadaluarsa <> "BELUM KADALUARSA"
+												GROUP BY k_kode_kantor_wilayah, user_kodeJabatanAgen
+											');
+				}
+
+				if ($hasil->num_rows() > 0)
+				{
+					echo $hasil->row()->JUMLAH;
+				}
+				else
+				{
+					echo '0';
+				}
+
+				break;
+
+			case 'jumlah':
+				
+				if ( $status == 1 )
+				{
+					$hasil = $this->db->query('
+												SELECT COUNT(user_id) AS JUMLAH
+												FROM user
+												INNER JOIN master_kantor ON user_kodeKantor = k_kode
+												WHERE "'.$tanggal.'" < user_tanggalLisensiAkhir AND k_kode_kantor_wilayah = "'.$kode.'"
+												AND user_statusKadaluarsa = "BELUM KADALUARSA"
+											');
+				}
+				else
+				{
+					$hasil = $this->db->query('
+												SELECT COUNT(user_id) AS JUMLAH
+												FROM user
+												INNER JOIN master_kantor ON user_kodeKantor = k_kode
+												WHERE "'.$tanggal.'" < user_tanggalLisensiAkhir AND k_kode_kantor_wilayah = "'.$kode.'"
+												AND user_statusKadaluarsa <> "BELUM KADALUARSA"
+											');
+				}
+
+				if ($hasil->num_rows() > 0)
+				{
+					echo $hasil->row()->JUMLAH;
+				}
+				else
+				{
+					echo '0';
+				}
+
+				break;
+		}
 	}
 
 }

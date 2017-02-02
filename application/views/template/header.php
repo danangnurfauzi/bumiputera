@@ -22,6 +22,9 @@
     <!-- Animation Css -->
     <link href="<?php echo base_url() ?>assets/plugins/animate-css/animate.css" rel="stylesheet" />
 
+    <!-- Material DateTimePicker Css -->
+    <link href="<?php echo base_url() ?>assets/plugins/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css" rel="stylesheet" />
+
     <!-- DataTable Css -->
     <link href="<?php echo base_url() ?>assets/plugins/jquery-datatable/skin/bootstrap/css/dataTables.bootstrap.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/fixedheader/3.1.2/css/fixedHeader.bootstrap.min.css">

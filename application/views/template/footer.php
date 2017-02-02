@@ -50,6 +50,11 @@
 	<!-- Select2Js -->
     <script src="<?php echo base_url() ?>assets/plugins/select2-4.0.3/dist/js/select2.full.min.js"></script>
 
+    <!-- Material DateTimePicker -->
+    <script type="text/javascript" src="https://rawgit.com/FezVrasta/bootstrap-material-design/master/dist/js/material.min.js"></script>
+    <script type="text/javascript" src="http://momentjs.com/downloads/moment-with-locales.min.js"></script>
+    <script src="<?php echo base_url() ?>assets/plugins/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js"></script>
+
     <!-- Custom Js -->
     <script src="<?php echo base_url() ?>assets/js/admin.js"></script>
     <!--script src="<?php echo base_url() ?>assets/js/pages/index.js"></script-->

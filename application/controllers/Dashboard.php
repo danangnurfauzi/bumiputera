@@ -744,4 +744,15 @@ class Dashboard extends CI_Controller {
 		}
 	}
 
+	function dataProduksi()
+	{
+		$data['sidebarMain'] = 'active';
+
+		$data['username'] = $_SESSION['username'];
+
+		$data['namaKantor'] = $this->Global_model->kantorWilayah();
+		
+		$this->load->view('dataProduksi_view',$data); 
+	}
+
 }

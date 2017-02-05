@@ -84,3 +84,63 @@ function totalProduksi( $idPusat )
 
     	return $row;
 }
+
+function jumlahAgenPerWilayahPusat( $kode )
+{
+    $ci=& get_instance();
+    $ci->load->database(); 
+
+    $sql = "SELECT COUNT(user_id) AS JUMLAH FROM master_kantor k INNER JOIN user u ON k.k_kode = u.user_kodeKantor WHERE k_kode_kantor_wilayah = '".$kode."'"; 
+    $query = $ci->db->query($sql);
+    $row = $query->row()->JUMLAH;
+
+    echo $row;
+} 
+
+function jumlahPremiAFYPPerWilayahPusat( $kode )
+{
+    $ci=& get_instance();
+    $ci->load->database(); 
+
+    $sql = "SELECT SUM(r.r_premiAFYP) AS JUMLAH FROM master_kantor k INNER JOIN report r ON k.k_kode = r.r_kantorSKT WHERE k_kode_kantor_wilayah = '".$kode."'"; 
+    $query = $ci->db->query($sql);
+    $row = $query->row()->JUMLAH;
+
+    return $row;
+}
+
+function jumlahSPPerWilayahPusat( $kode )
+{
+    $ci=& get_instance();
+    $ci->load->database(); 
+
+    $sql = "SELECT COUNT(r.r_nomorPolis) AS JUMLAH FROM master_kantor k INNER JOIN report r ON k.k_kode = r.r_kantorSKT WHERE k_kode_kantor_wilayah = '".$kode."'"; 
+    $query = $ci->db->query($sql);
+    $row = $query->row()->JUMLAH;
+
+    echo $row;
+} 
+
+function jumlahPremiPokokPerWilayahPusat( $kode )
+{
+    $ci=& get_instance();
+    $ci->load->database(); 
+
+    $sql = "SELECT SUM(r.r_premiPokok) AS JUMLAH FROM master_kantor k INNER JOIN report r ON k.k_kode = r.r_kantorSKT WHERE k_kode_kantor_wilayah = '".$kode."'"; 
+    $query = $ci->db->query($sql);
+    $row = $query->row()->JUMLAH;
+
+    return $row;
+} 
+
+function jumlahPPPerWilayahPusat( $kode )
+{
+    $ci=& get_instance();
+    $ci->load->database(); 
+
+    $sql = "SELECT SUM(r.r_premiPokok) AS JUMLAH_PREMI_POKOK , SUM(r.r_premiTopUp) AS JUMLAH_PREMI_TOP_UP FROM master_kantor k INNER JOIN report r ON k.k_kode = r.r_kantorSKT WHERE k_kode_kantor_wilayah = '".$kode."'"; 
+    $query = $ci->db->query($sql);
+    $row = $query->row()->JUMLAH_PREMI_POKOK + $query->row()->JUMLAH_PREMI_TOP_UP;
+
+    return $row;
+}

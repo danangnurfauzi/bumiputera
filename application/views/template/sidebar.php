@@ -81,6 +81,12 @@
                             <span>Pencarian Data</span>
                         </a>
                     </li>
+                    <li class="<?php echo ($us_2 == 'dataProduksi') ? "active" : "" ?>">
+                        <a href="<?php echo site_url('dashboard/dataProduksi') ?>">
+                            <i class="material-icons">people</i>
+                            <span>Data Produksi</span>
+                        </a>
+                    </li>
                     <?php
                                  break;
 

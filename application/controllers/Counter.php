@@ -128,4 +128,20 @@ class Counter extends CI_Controller {
 		echo number_format($query->row()->JUMLAH_PREMI_POKOK + $query->row()->JUMLAH_PREMI_TOP_UP);
 	}
 
+	function jumlahSPTenagaPemasar( $nomorLisensi )
+	{
+		
+		$query = $this->db->query("SELECT COUNT(r.r_nomorPolis) AS JUMLAH FROM report r WHERE r_nomorLisensi = ".$nomorLisensi);
+
+		echo number_format($query->row()->JUMLAH);
+	}
+
+	function jumlahUPTenagaPemasar( $nomorLisensi = '' )
+	{
+		
+		$query = $this->db->query("SELECT SUM(r.r_premiPokok) AS JUMLAH FROM report r WHERE r_nomorLisensi = ".$nomorLisensi);
+		
+		echo number_format($query->row()->JUMLAH);
+	}
+
 }

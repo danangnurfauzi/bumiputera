@@ -75,9 +75,13 @@ class Dashboard extends CI_Controller {
 
 				$data['bawahan'] = $this->Global_model->dataBawahan($_SESSION['idPusat']);
 
+				//echo $this->db->last_query();exit;
+
 				$data['agen'] = $this->Global_model->agen()->num_rows();
 				
 				$data['namaAtasan'] = $this->Global_model->dataAgen( $_SESSION['nomorLisensi'] );
+
+				$data['nomorLisensi'] = $_SESSION['nomorLisensi'];
 				
 				$this->load->view('dashboard_view',$data);  
 				

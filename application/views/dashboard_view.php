@@ -31,18 +31,22 @@
                         </div>
                         <div class="content">
                             <div class="text">JUMLAH SP</div>
-                            <div class="number count-to" data-from="0" data-to="125" data-speed="15" data-fresh-interval="20"></div>
+                            <div class="number" id="jumlahSP">
+                                <img src="http://1opmgif057j3093j-zippykid.netdna-ssl.com/wp-content/themes/Extra/images/loading.gif" width="25" id="imgsp" style="display: none;" />
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                     <div class="info-box bg-cyan hover-expand-effect">
                         <div class="icon">
-                            <i class="material-icons">help</i>
+                            <i class="material-icons">account_balance_wallet</i>
                         </div>
                         <div class="content">
                             <div class="text">JUMLAH UP</div>
-                            <div class="number count-to" data-from="0" data-to="257" data-speed="1000" data-fresh-interval="20"></div>
+                            <div class="number" id="jumlahUP">
+                                <img src="http://1opmgif057j3093j-zippykid.netdna-ssl.com/wp-content/themes/Extra/images/loading.gif" width="25" id="imgup" style="display: none;" />
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -64,7 +68,13 @@
                         </div>
                         <div class="content">
                             <div class="text">JUMLAH AGEN</div>
-                            <div class="number count-to" data-from="0" data-to="<?php echo $agen ?>" data-speed="1000" data-fresh-interval="20"></div>
+                            <div class="number">
+                                <?php if($bawahan->num_rows() > 0){ ?>
+                                        <?php echo $bawahan->num_rows() ?>
+                                <?php }else{  ?>
+                                        0
+                                <?php } ?>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -213,12 +223,37 @@
         $('.count-to').countTo();
 
         $(function () {
-	    $('#tabel').DataTable({
-	    	responsive: {
-		        details: true
-		    }
-	    });	
-	});
+    	    $('#tabel').DataTable({
+    	    	responsive: {
+    		        details: true
+    		    }
+    	    });	
+    	});
+
+        $( document ).ready(function() {
+
+            $("#imgsp").show();
+            $("#imgup").show();
+
+            $.ajax({
+                url: '<?php echo base_url() ?>counter/jumlahSPTenagaPemasar/<?php echo $nomorLisensi ?>',
+                type: 'get',
+                success:function(response){
+                    $("#imgsp").hide();
+                    $('#jumlahSP').text(response);
+                }
+            });
+
+            $.ajax({
+                url: '<?php echo base_url() ?>counter/jumlahUPTenagaPemasar/<?php echo $nomorLisensi ?>',
+                type: 'get',
+                success:function(response){
+                    $("#imgup").hide();
+                    $('#jumlahUP').text(response);
+                }
+            });
+
+        });
 
     </script>
 

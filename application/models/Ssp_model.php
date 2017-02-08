@@ -33,7 +33,7 @@ class Ssp_model extends CI_Model
 	}
 	
 	function json( $kodeKantorWilayah ) {
-        $this->datatables->select('r_nomorPolis, r_namaPempol, r_cbPremi, r_tanggalMulai, r_premiPokok, r_premiAFYP, r_premiTopUp , (r_premiTopUp + r_premiPokok) AS PP');
+        $this->datatables->select('r_nomorPolis, r_namaPempol, k_nama, r_cbPremi, r_tanggalMulai, r_premiPokok, r_premiAFYP, r_premiTopUp , (r_premiTopUp + r_premiPokok) AS PP');
         $this->datatables->from('report');
         $this->datatables->join('master_kantor','r_kantorSKT = k_kode');
         $this->datatables->where('k_kode_kantor_wilayah',$kodeKantorWilayah);

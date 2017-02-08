@@ -33,6 +33,7 @@
                                     	<th>Nomor</th>
                                         <th>No. Polis</th>
                                         <th>Nama Pempol</th>
+                                        <th>Kantor Cabang</th>
                                         <th>Tanggal Mulai</th>
                                         <th>CB Premi</th>
                                         <th>Premi Top</th>
@@ -134,6 +135,7 @@
 	            	{"data": null},
 	                {"data": "r_nomorPolis"},
 	                {"data": "r_namaPempol"},
+                    {"data": "k_nama"},
 	                {"data": "r_tanggalMulai"},
 	                {"data": "r_cbPremi"},
 	                {"data": "r_premiTopUp"},
